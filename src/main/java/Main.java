@@ -10,6 +10,9 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
+        MapClass mc = new MapClass();
+        mc.firstData(args[0]);
+
         Job job = Job.getInstance(conf, "word count");
         job.setJarByClass(Main.class);
         job.setMapperClass(MapClass.class);
