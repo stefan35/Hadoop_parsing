@@ -39,3 +39,4 @@
 <http://rdf.freebase.com/ns/g.112yfj_hx>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/people.person>	.
 <http://rdf.freebase.com/ns/g.112yfj_hx>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.physically_instantiable>	.
 <http://rdf.freebase.com/ns/g.112yfj_hx>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/common.topic>	.
+<http://rdf.freebase.com/ns/g.112yfj_hr>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/common.topic>	.

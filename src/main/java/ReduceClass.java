@@ -5,17 +5,11 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-// Calculate occurrences of a character
-public class ReduceClass extends Reducer<Text, IntWritable, Text, IntWritable> {
-    //private LongWritable result = new LongWritable();
-    private IntWritable result = new IntWritable();
+public class ReduceClass extends Reducer<Text, Text, Text, Text> {
 
-    public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-        int sum = 0;
-        for (IntWritable val : values) {
-            sum += val.get();
+    public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+        for (Text t : values) {
+            context.write(key, t);
         }
-        result.set(sum);
-        context.write(key, result);
     }
 }

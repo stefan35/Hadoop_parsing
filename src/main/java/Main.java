@@ -10,8 +10,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
-        MapClass mc = new MapClass();
-        mc.firstData(args[0]);
 
         Job job = Job.getInstance(conf, "word count");
         job.setJarByClass(Main.class);
@@ -19,9 +17,9 @@ public class Main {
         job.setCombinerClass(ReduceClass.class);
         job.setReducerClass(ReduceClass.class);
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
+        job.setOutputValueClass(Text.class);
         job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(IntWritable.class);
+        job.setMapOutputValueClass(Text.class);
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
