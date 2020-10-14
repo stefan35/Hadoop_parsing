@@ -19,6 +19,17 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
+        //try {
+            String filename= "the-file-name.txt";
+            FileWriter fw = new FileWriter(filename,true);
+            fw.write("add a line\n");
+            fw.close();
+        /*}
+        catch(IOException ioe)
+        {
+            System.err.println("IOException: " + ioe.getMessage());
+        }*/
+
         Pattern pattern = Pattern.compile("(.*?(person).*)");
         String line = input_line.toString();
         Matcher matcher = pattern.matcher(line);
