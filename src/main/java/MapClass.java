@@ -11,8 +11,11 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
     private Text id = new Text();
     private Text value = new Text();
     private ArrayList<String> person = new ArrayList<String>();
+    private ArrayList<String> attributes = new ArrayList<String>();
+    private ArrayList<String> tmp_attributes = new ArrayList<String>();
     private ArrayList<String> tmp_list = new ArrayList<String>();
     String current = "";
+    String attribute_id = "";
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
@@ -26,26 +29,40 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         String[] tmp_triplet = line.split("\t");
         String pi = getId(tmp_triplet[0]);
 
-        if (tmp_list.size() < 15 && !matcher.matches())
+        if (tmp_list.size() < 50 && !matcher.matches()) {
             tmp_list.add(line);
-        else if (tmp_list.size() >= 15 && !matcher.matches()){
+            tmp_attributes.add(line);
+        }
+        else if (tmp_list.size() >= 50 && !matcher.matches()){
             tmp_list.remove(0);
+            tmp_attributes.remove(0);
             tmp_list.add(line);
+            tmp_attributes.add(line);
         }
 
         if(!current.equals(pi) && !current.equals(""))
         {
-            value.set(String.valueOf(person));
-            id.set(current);
-            context.write(value, id);
-            person.clear();
-            current = person_id;
+            if(!person.isEmpty()) {
+                checktTiplets(current);
+                value.set(String.valueOf(person));
+                id.set(current);
+                context.write(value, id);
+                person.clear();
+                current = pi;
+            }
+            if(!attributes.isEmpty()){
+                value.set(String.valueOf(attributes));
+                id.set(attribute_id);
+                context.write(value, id);
+                person.clear();
+                current = pi;
+            }
         }
 
         try{
             if (matcher.matches() || line.contains(current)){
                 String[] triplets = matcher.group().split("\t");
-                if(!triplets[1].contains("-rdf-syntax-") && !triplets[1].contains("type")) {
+                if(!triplets[1].contains("-rdf-syntax-") && !triplets[1].contains("type") && !triplets[2].contains("person")) {
                     person_id = getId(triplets[0]);
 
                     if(current.equals(""))
@@ -58,10 +75,30 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
                         person.add(person_value);
                     }
                 }
+                else if(triplets[1].contains("predicate")){
+                    person_id = getId(triplets[0]);
+                    addOther(person_id);
+                }
             }
         }catch (Exception e){
             //System.out.println(current);
         }
+    }
+
+    public void addOther(String id){
+        String person_id = "";
+
+        for(int i = 0; i < tmp_attributes.size(); i++) {
+            String[] triplets = tmp_list.get(i).split("\t");
+            person_id = getId(triplets[0]);
+            if(person_id.equals(id) && triplets[2].contains("\"")){
+                attributes.add(triplets[2]);
+            }
+            else if(person_id.equals(id) && triplets[1].contains("notable_object") && triplets[2].contains("<")){
+                attribute_id = getId(triplets[2]);
+            }
+        }
+        tmp_attributes.clear();
     }
 
     public void checktTiplets(String id){

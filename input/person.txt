@@ -1,42 +1,223 @@
-<http://rdf.freebase.com/ns/freebase.user_profile.favorite_domains>	<http://www.w3.org/2000/01/rdf-schema#range>	<http://rdf.freebase.com/ns/freebase.domain_profile>	.
-<http://rdf.freebase.com/ns/freebase.user_profile.favorite_domains>	<http://www.w3.org/2002/07/owl#inverseOf>	<http://rdf.freebase.com/ns/freebase.domain_profile.users>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://rdf.freebase.com/ns/people.person.nationality>	<http://rdf.freebase.com/ns/m.07ylj>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.animate>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.agent>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/common.topic>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://rdf.freebase.com/ns/people.deceased_person.date_of_death>	"2001-10-13"^^<http://www.w3.org/2001/XMLSchema#date>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/people.person>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.physically_instantiable>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://rdf.freebase.com/ns/people.person.date_of_birth>	"1933-01-25"^^<http://www.w3.org/2001/XMLSchema#date>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/people.deceased_person>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.animate>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.agent>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/common.topic>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/people.person>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.physically_instantiable>	.
-<http://rdf.freebase.com/ns/g.112yf8_qt>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/people.deceased_person>	.
-<http://rdf.freebase.com/ns/g.112yf8n_n>	<http://rdf.freebase.com/ns/base.schemastaging.context_name.pronunciation>	<http://rdf.freebase.com/ns/g.125_mx3n6>	.
-<http://rdf.freebase.com/ns/g.112yf9p9v>	<http://rdf.freebase.com/ns/base.schemastaging.context_name.pronunciation>	<http://rdf.freebase.com/ns/g.125_s3gvg>	.
-<http://rdf.freebase.com/ns/g.112yf9zdv>	<http://rdf.freebase.com/ns/base.schemastaging.context_name.pronunciation>	<http://rdf.freebase.com/ns/g.125_n041z>	.
-<http://rdf.freebase.com/ns/g.112yfhv9p>	<http://rdf.freebase.com/ns/people.person.date_of_birth>	"1887-04-14"^^<http://www.w3.org/2001/XMLSchema#date>	.
-<http://rdf.freebase.com/ns/g.112yfhv9p>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.animate>	.
-<http://rdf.freebase.com/ns/g.112yfhv9p>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/people.person>	.
-<http://rdf.freebase.com/ns/g.112yfhv9p>	<http://rdf.freebase.com/ns/people.deceased_person.date_of_death>	"1963-01-15"^^<http://www.w3.org/2001/XMLSchema#date>	.
-<http://rdf.freebase.com/ns/g.112yfhv9p>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/people.deceased_person>	.
-<http://rdf.freebase.com/ns/g.112yfhv9p>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.physically_instantiable>	.
-<http://rdf.freebase.com/ns/g.112yfhv9p>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/common.topic>	.
-<http://rdf.freebase.com/ns/g.112yfhv9p>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.agent>	.
-<http://rdf.freebase.com/ns/g.112yfhv9p>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.animate>	.
-<http://rdf.freebase.com/ns/g.112yfhv9p>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/people.person>	.
-<http://rdf.freebase.com/ns/g.112yfhv9p>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/people.deceased_person>	.
-<http://rdf.freebase.com/ns/g.112yfhv9p>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.physically_instantiable>	.
-<http://rdf.freebase.com/ns/g.112yfhv9p>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/common.topic>	.
-<http://rdf.freebase.com/ns/g.112yfhv9p>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.agent>	.
-<http://rdf.freebase.com/ns/g.112yfj_hx>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.animate>	.
-<http://rdf.freebase.com/ns/g.112yfj_hx>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.agent>	.
-<http://rdf.freebase.com/ns/g.112yfj_hx>	<http://rdf.freebase.com/ns/base.schemastaging.context_name.pronunciation>	<http://rdf.freebase.com/ns/g.125_s27s1>	.
-<http://rdf.freebase.com/ns/g.112yfj_hx>	<http://rdf.freebase.com/ns/people.person.date_of_birth>	"1990-07-07"^^<http://www.w3.org/2001/XMLSchema#date>	.
-<http://rdf.freebase.com/ns/g.112yfj_hx>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/people.person>	.
-<http://rdf.freebase.com/ns/g.112yfj_hx>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.physically_instantiable>	.
-<http://rdf.freebase.com/ns/g.112yfj_hx>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/common.topic>	.
-<http://rdf.freebase.com/ns/g.112yfj_hr>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/common.topic>	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Mužské pohlaví"@cs	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Mascle"@ca	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Vira sekso"@eo	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Hankøn"@da	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"पुरुष"@hi	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Αρσενικό"@el	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"เพศชาย"@th	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Самец"@ru	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Koiras"@fi	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Masculino"@es-419	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"雄性"@zh-Hant	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Lalaki"@fil	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Samec"@sk	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Man"@en	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"نر"@fa	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Tēviņš"@lv	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Мушко"@sr	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Erkek"@tr	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Patinas"@lt	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"수컷"@ko	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"ذكر"@ar	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Muško"@hr	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Hane"@sv	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"זכר"@iw	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Han"@no	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Giống đực"@vi	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"雄性"@zh	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/common.notable_for>	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Männliches Geschlecht"@de	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Masculino"@es	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.object>	<http://rdf.freebase.com/ns/m.05zppz>	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.notable_object>	<http://rdf.freebase.com/ns/m.05zppz>	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Hímnem"@hu	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"オス"@ja	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Мъж"@bg	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Mannelijk"@nl	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Samiec"@pl	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Jantan"@ms	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Jantan"@id	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Mascul"@ro	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Moški"@sl	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Чоловіча стать"@uk	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Macho"@pt	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.predicate>	"/people/person/gender"	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Maschio"@it	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Mâle"@fr	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"雄性"@zh-TW	.
+<http://rdf.freebase.com/ns/g.11b5lytk69>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/common.notable_for>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/common.topic>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/imdb.topic.name_id>	"nm0080035"	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.spouse_s>	<http://rdf.freebase.com/ns/m.0xntkbn>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.agent>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/film.producer>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/film.producer.film>	<http://rdf.freebase.com/ns/m.0dgpj_9>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/people.deceased_person>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.deceased_person.place_of_death>	<http://rdf.freebase.com/ns/m.080g3>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.deceased_person.date_of_death>	"2008-03-20"^^<http://www.w3.org/2001/XMLSchema#date>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/common.topic.notable_types>	<http://rdf.freebase.com/ns/m.0jsg3l>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/key/authority.imdb.name>	"nm0080035"	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.parents>	<http://rdf.freebase.com/ns/m.0xntk6r>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/common.topic.notable_for>	<http://rdf.freebase.com/ns/g.11btxkmwk3>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/kg.object_profile.prominent_type>	<http://rdf.freebase.com/ns/film.producer>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/common.topic.description>	"René Bezard was a film producer."@en	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.place_of_birth>	<http://rdf.freebase.com/ns/m.04r5c>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.key>	"/authority/imdb/name/nm0080035"	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/people.person>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.parents>	<http://rdf.freebase.com/ns/m.0xntk7k>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.animate>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.profession>	<http://rdf.freebase.com/ns/m.01d_h8>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.name>	"René Bezard"@it	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.date_of_birth>	"1920-08-07"^^<http://www.w3.org/2001/XMLSchema#date>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.gender>	<http://rdf.freebase.com/ns/m.05zppz>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.physically_instantiable>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/common.topic.topic_equivalent_webpage>	<http://www.imdb.com/name/nm0080035/>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.nationality>	<http://rdf.freebase.com/ns/m.0f8l9c>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/2000/01/rdf-schema#label>	"René Bezard"@it	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.name>	"René Bezard"@en	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/2000/01/rdf-schema#label>	"René Bezard"@en	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/common.topic>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.agent>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/film.producer>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/people.deceased_person>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/people.person>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.animate>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.physically_instantiable>	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.name>	"René Bezard"@it	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/2000/01/rdf-schema#label>	"René Bezard"@it	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.name>	"René Bezard"@en	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/2000/01/rdf-schema#label>	"René Bezard"@en	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/2000/01/rdf-schema#label>	"René Bezard"@en	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.name>	"René Bezard"@it	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.name>	"René Bezard"@en	.
+<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/2000/01/rdf-schema#label>	"René Bezard"@it	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/book.author>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/people.person.nationality>	<http://rdf.freebase.com/ns/m.06mkj>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/freebase.valuenotation.is_reviewed>	<http://rdf.freebase.com/ns/m.0jsd7n>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/common.topic.topic_equivalent_webpage>	<http://www.gf.org/fellows/9024-jose-lopez-rey>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/people.person>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/award.award_winner>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/book.author.works_written>	<http://rdf.freebase.com/ns/m.0c35_9p>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/common.topic.notable_types>	<http://rdf.freebase.com/ns/m.01xryvt>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/kg.object_profile.prominent_type>	<http://rdf.freebase.com/ns/book.author>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://www.w3.org/2000/01/rdf-schema#label>	"José López-Rey"@en	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/common.topic>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.physically_instantiable>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/book.author.works_written>	<http://rdf.freebase.com/ns/m.0c35_9h>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/common.topic.topic_equivalent_webpage>	<http://id.loc.gov/authorities/names/n79055456.html>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/book.author.works_written>	<http://rdf.freebase.com/ns/m.0c35_9d>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/freebase.valuenotation.is_reviewed>	<http://rdf.freebase.com/ns/m.04m1>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/freebase.valuenotation.is_reviewed>	<http://rdf.freebase.com/ns/m.04m8>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/people.deceased_person>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.agent>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/book.author.works_written>	<http://rdf.freebase.com/ns/m.0c35_9l>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/type.object.name>	"José López-Rey"@en	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/people.deceased_person.date_of_death>	"1991"^^<http://www.w3.org/2001/XMLSchema#gYear>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/key/authority.us.gov.loc.na>	"n79055456"	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/common.topic.description>	"José López-Rey is  a 1947 Guggenheim Fellow in Humanities."@en	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/people.person.date_of_birth>	"1905"^^<http://www.w3.org/2001/XMLSchema#gYear>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/award.award_winner.awards_won>	<http://rdf.freebase.com/ns/m.01067c8f>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/freebase.valuenotation.has_value>	<http://rdf.freebase.com/ns/m.028xmk7>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/people.person.nationality>	<http://rdf.freebase.com/ns/m.09c7w0>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.animate>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/people.person.place_of_birth>	<http://rdf.freebase.com/ns/m.056_y>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/type.object.key>	"/authority/us/gov/loc/na/n79055456"	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/freebase.valuenotation.is_reviewed>	<http://rdf.freebase.com/ns/m.04mh>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/common.topic.notable_for>	<http://rdf.freebase.com/ns/g.11btxcdb9r>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/people.person.gender>	<http://rdf.freebase.com/ns/m.05zppz>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/type.object.key>	"/user/hangy/viaf/51810697"	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/common.topic.topic_equivalent_webpage>	<http://viaf.org/viaf/51810697/>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/freebase.valuenotation.has_value>	<http://rdf.freebase.com/ns/m.04mq>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/key/user.hangy.viaf>	"51810697"	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/people.person.places_lived>	<http://rdf.freebase.com/ns/m.010bck0l>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/freebase.valuenotation.is_reviewed>	<http://rdf.freebase.com/ns/m.04nt>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/book.author>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/people.person>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/award.award_winner>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/common.topic>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.physically_instantiable>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/people.deceased_person>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.agent>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.animate>	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://www.w3.org/2000/01/rdf-schema#label>	"José López-Rey"@en	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/type.object.name>	"José López-Rey"@en	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/type.object.name>	"José López-Rey"@en	.
+<http://rdf.freebase.com/ns/g.124xw1pq6>	<http://www.w3.org/2000/01/rdf-schema#label>	"José López-Rey"@en	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/common.topic.notable_types>	<http://rdf.freebase.com/ns/m.022tfrk>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/people.person>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/people.person.gender>	<http://rdf.freebase.com/ns/m.05zppz>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.animate>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/people.person.parents>	<http://rdf.freebase.com/ns/m.096nt3n>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/people.person.date_of_birth>	"1818"^^<http://www.w3.org/2001/XMLSchema#gYear>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/kg.object_profile.prominent_type>	<http://rdf.freebase.com/ns/people.deceased_person>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.agent>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://www.w3.org/2000/01/rdf-schema#label>	"Hans Siemens"@en	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/people.person.nationality>	<http://rdf.freebase.com/ns/m.0345h>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/type.object.name>	"Hans Siemens"@en	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/people.deceased_person.date_of_death>	"1867"^^<http://www.w3.org/2001/XMLSchema#gYear>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/people.deceased_person>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/people.person.parents>	<http://rdf.freebase.com/ns/g.121_52gt>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.physically_instantiable>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/common.topic>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/type.object.key>	"/en/hans_siemens"	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/people.person.spouse_s>	<http://rdf.freebase.com/ns/m.096qh19>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/common.topic.notable_for>	<http://rdf.freebase.com/ns/g.11bt_73f5z>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/key/en>	"hans_siemens"	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/people.person>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.animate>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.agent>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/people.deceased_person>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.physically_instantiable>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/common.topic>	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://www.w3.org/2000/01/rdf-schema#label>	"Hans Siemens"@en	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/type.object.name>	"Hans Siemens"@en	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://www.w3.org/2000/01/rdf-schema#label>	"Hans Siemens"@en	.
+<http://rdf.freebase.com/ns/g.1238xvt1>	<http://rdf.freebase.com/ns/type.object.name>	"Hans Siemens"@en	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Mannelijk"@nl	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"雄性"@zh-Hant	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Erkek"@tr	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Самец"@ru	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Tēviņš"@lv	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Lalaki"@fil	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Mascle"@ca	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Maschio"@it	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Koiras"@fi	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"ذكر"@ar	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Samec"@sk	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.object>	<http://rdf.freebase.com/ns/m.05zppz>	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Moški"@sl	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Macho"@pt	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Man"@en	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"पुरुष"@hi	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"เพศชาย"@th	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Jantan"@id	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Han"@no	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"雄性"@zh-TW	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Mužské pohlaví"@cs	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"نر"@fa	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"זכר"@iw	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Mascul"@ro	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"オス"@ja	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Jantan"@ms	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Hane"@sv	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/common.notable_for>	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Мъж"@bg	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Patinas"@lt	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Hankøn"@da	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Vira sekso"@eo	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Masculino"@es	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Giống đực"@vi	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.notable_object>	<http://rdf.freebase.com/ns/m.05zppz>	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Hímnem"@hu	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Männliches Geschlecht"@de	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Muško"@hr	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Masculino"@es-419	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Mâle"@fr	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Чоловіча стать"@uk	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Αρσενικό"@el	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Мушко"@sr	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"雄性"@zh	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"Samiec"@pl	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.display_name>	"수컷"@ko	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://rdf.freebase.com/ns/common.notable_for.predicate>	"/people/person/gender"	.
+<http://rdf.freebase.com/ns/g.11b5lvqy31>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/common.notable_for>	.
