@@ -6,15 +6,9 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-import java.io.File;
-import java.io.PrintWriter;
-
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        File myObj = new File("the-file-name.txt");
-        myObj.createNewFile();
-
         Configuration conf = new Configuration();
 
         Job job = Job.getInstance(conf, "word count");

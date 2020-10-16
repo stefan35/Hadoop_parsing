@@ -19,16 +19,8 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
-        //try {
-            String filename= "the-file-name.txt";
-            FileWriter fw = new FileWriter(filename,true);
-            fw.write("add a line\n");
-            fw.close();
-        /*}
-        catch(IOException ioe)
-        {
-            System.err.println("IOException: " + ioe.getMessage());
-        }*/
+        String filename = "the-file-name.txt";
+        Writer out = new OutputStreamWriter(new FileOutputStream(filename, true), "UTF-8");
 
         Pattern pattern = Pattern.compile("(.*?(person).*)");
         String line = input_line.toString();
@@ -40,44 +32,68 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         String[] tmp_triplet = line.split("\t");
         String pi = getId(tmp_triplet[0]);
 
-        if (tmp_list.size() < 50 && !matcher.matches()) {
-            tmp_list.add(line);
-            tmp_attributes.add(line);
-        }
-        else if (tmp_list.size() >= 50 && !matcher.matches()){
-            tmp_list.remove(0);
-            tmp_attributes.remove(0);
-            tmp_list.add(line);
-            tmp_attributes.add(line);
+        if(current.equals(""))
+            current = pi;
+
+        if (!matcher.matches()) {
+            if(tmp_list.size() < 50)
+                tmp_list.add(line);
+            else if(tmp_list.size() >= 50) {
+                tmp_list.remove(0);
+                tmp_list.add(line);
+            }
+            if(tmp_attributes.size() < 50)
+                tmp_attributes.add(line);
+            else if(tmp_attributes.size() >= 50) {
+                tmp_attributes.remove(0);
+                tmp_attributes.add(line);
+            }
         }
 
         if(!current.equals(pi) && !current.equals(""))
         {
             if(!person.isEmpty()) {
-                checktTiplets(current);
-                value.set(String.valueOf(person));
-                id.set(current);
-                context.write(value, id);
+                for(String str : person){
+                    if(str.trim().contains("name")){
+                        checktTiplets(current);
+                        value.set(String.valueOf(person));
+                        id.set(current);
+                        context.write(value, id);
+                        break;
+                    }
+                }
                 person.clear();
-                current = pi;
             }
             if(!attributes.isEmpty()){
-                value.set(String.valueOf(attributes));
-                id.set(attribute_id);
-                context.write(value, id);
-                person.clear();
-                current = pi;
+                BufferedReader br = new BufferedReader(new FileReader(filename));
+                boolean find_line = false;
+
+                String current_line;
+                while ((current_line = br.readLine()) != null) {
+                    if(current_line.contains(attribute_id)){
+                        find_line = true;
+                    }
+                }
+                if(!find_line) {
+                    addOther(current);
+                    out.write(attributes + "-" + attribute_id + "-" + current + "\n");
+                    out.close();
+                }
+                attribute_id = "";
+                attributes.clear();
             }
+            current = pi;
         }
 
         try{
             if (matcher.matches() || line.contains(current)){
                 String[] triplets = matcher.group().split("\t");
-                if(!triplets[1].contains("-rdf-syntax-") && !triplets[1].contains("type") && !triplets[2].contains("person")) {
+                if(!triplets[1].contains("-rdf-syntax-") && !triplets[1].contains("type") &&
+                   !triplets[2].contains("person") && !triplets[1].contains("spouse_s") &&
+                   !triplets[1].contains("parents") && !triplets[1].contains("place") &&
+                   !triplets[1].contains("nationality")) {
                     person_id = getId(triplets[0]);
 
-                    if(current.equals(""))
-                        current = person_id;
                     if(current.equals(person_id)){
                         checktTiplets(person_id);
                         person_attribute = getAttribute(triplets[1]);
@@ -99,17 +115,28 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
     public void addOther(String id){
         String person_id = "";
 
-        for(int i = 0; i < tmp_attributes.size(); i++) {
+        for(int i = 0; i < tmp_list.size(); i++) {
             String[] triplets = tmp_list.get(i).split("\t");
             person_id = getId(triplets[0]);
             if(person_id.equals(id) && triplets[2].contains("\"")){
                 attributes.add(triplets[2]);
             }
-            else if(person_id.equals(id) && triplets[1].contains("notable_object") && triplets[2].contains("<")){
+            if(person_id.equals(id) && triplets[1].contains("object>") && triplets[2].contains("<")){
                 attribute_id = getId(triplets[2]);
             }
+            if(person_id.equals(id)){
+                tmp_list.remove(i);
+                i = -1;
+            }
         }
-        tmp_attributes.clear();
+        /*for(int j = 0; j < tmp_list.size(); j++) {
+            String[] triplets = tmp_list.get(j).split("\t");
+            person_id = getId(triplets[0]);
+            if(person_id.equals(id)){
+                tmp_list.remove(j);
+                j = -1;
+            }
+        }*/
     }
 
     public void checktTiplets(String id){
