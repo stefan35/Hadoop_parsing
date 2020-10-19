@@ -19,7 +19,7 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
-        String filename = "the-file-name.txt";
+        String filename = "values.txt";
         Writer out = new OutputStreamWriter(new FileOutputStream(filename, true), "UTF-8");
 
         Pattern pattern = Pattern.compile("(.*?(person).*)");
@@ -76,7 +76,7 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
                 }
                 if(!find_line) {
                     addOther(current);
-                    out.write(attributes + "-" + attribute_id + "-" + current + "\n");
+                    out.write(attributes + "+" + attribute_id + "+" + current + "\n");
                     out.close();
                 }
                 attribute_id = "";
