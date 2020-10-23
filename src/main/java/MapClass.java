@@ -19,7 +19,8 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
-        String filename = "values.txt";
+        System.out.println("b");
+        /*String filename = "values.txt";
         Writer out = new OutputStreamWriter(new FileOutputStream(filename, true), "UTF-8");
 
         Pattern pattern = Pattern.compile("(.*?(person).*)");
@@ -31,6 +32,14 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         String person_value = "";
         String[] tmp_triplet = line.split("\t");
         String pi = getId(tmp_triplet[0]);
+
+        if(matcher.matches()) {
+            value.set(line);
+            id.set(pi);
+            context.write(value, id);
+        }
+
+
 
         if(current.equals(""))
             current = pi;
@@ -96,8 +105,8 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
 
                     if(current.equals(person_id)){
                         checktTiplets(person_id);
-                        person_attribute = getAttribute(triplets[1]);
-                        person_value = getValue(triplets[2]);
+                        person_attribute = triplets[1];
+                        person_value = triplets[2];
                         person.add(person_attribute);
                         person.add(person_value);
                     }
@@ -108,8 +117,7 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
                 }
             }
         }catch (Exception e){
-            //System.out.println(current);
-        }
+        }*/
     }
 
     public void addOther(String id){
@@ -129,15 +137,8 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
                 i = -1;
             }
         }
-        /*for(int j = 0; j < tmp_list.size(); j++) {
-            String[] triplets = tmp_list.get(j).split("\t");
-            person_id = getId(triplets[0]);
-            if(person_id.equals(id)){
-                tmp_list.remove(j);
-                j = -1;
-            }
-        }*/
     }
+
 
     public void checktTiplets(String id){
         String person_id = "";
@@ -148,8 +149,8 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
                 String[] triplets = tmp_list.get(i).split("\t");
                 person_id = getId(triplets[0]);
             if(person_id.equals(id) && !triplets[1].contains("-rdf-syntax-") && triplets[1].contains("object.name")){
-                person_attribute = getAttribute(triplets[1]);
-                person_value = getValue(triplets[2]);
+                person_attribute = triplets[1];
+                person_value = triplets[2];
                 person.add(person_attribute);
                 person.add(person_value);
             }
@@ -161,30 +162,5 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         String[] id = base_triplet.split("/");
         id[4] = id[4].substring(0, id[4].length() - 1);
         return id[4];
-    }
-
-    public String getAttribute(String base_triplet){
-        //String[] attribute = base_triplet.split("/");
-        //String[] final_attribute = attribute[4].split("\\.");
-        //final_attribute[2] = final_attribute[2].substring(0, final_attribute[2].length() - 1);
-        return base_triplet;
-    }
-
-    public String getValue(String base_triplet){
-        return base_triplet;
-        /*String[] value = new String[0];
-        if(base_triplet.contains("XMLSchema")) {
-            value = base_triplet.split("\"");
-            return value[1];
-        }
-        else if(base_triplet.contains("\"")){
-            value = base_triplet.split("\"");
-            return value[1];
-        }
-        else{
-            value = base_triplet.split("/");
-            value[4] = value[4].substring(0, value[4].length() - 1);
-            return value[4];
-        }*/
     }
 }
