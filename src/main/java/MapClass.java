@@ -32,7 +32,7 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
 
         String[] tmp_triplet = line.split("\t");
         String id = getId(tmp_triplet[0]);
-        Pattern person_pattern = Pattern.compile(".*(ns.people.person)(.g|.da|.pr).*");
+        Pattern person_pattern = Pattern.compile(".*((ns.people.person)(.g|.pr)|label|date_of).*");
         Matcher person_matcher = person_pattern.matcher(line);
         Pattern link_pattern = Pattern.compile(".*(notable_for)(.display|.object).*");
         Matcher link_matcher = link_pattern.matcher(line);
@@ -49,7 +49,7 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
 
                 break;
             }
-            else if(id.equals(current_line) && link_matcher.matches()){
+            else if(current_line.contains(id) && link_matcher.matches()){
                 if(tmp_triplet[2].contains("\"")){
                     val.write(id + " " + tmp_triplet[2] + "\n");
                     val.close();
