@@ -8,7 +8,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
-    private Text id = new Text();
+    private Text text_id = new Text();
     private Text value = new Text();
     private ArrayList<String> person = new ArrayList<String>();
     private ArrayList<String> attributes = new ArrayList<String>();
@@ -19,7 +19,60 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
-        System.out.println("b");
+        String line = input_line.toString();
+
+        String filename = "person.txt";
+        Writer per = new OutputStreamWriter(new FileOutputStream(filename, true), "UTF-8");
+
+        String filename1 = "values.txt";
+        Writer val = new OutputStreamWriter(new FileOutputStream(filename1, true), "UTF-8");
+
+        String filename2 = "person_id.txt";
+        BufferedReader br = new BufferedReader(new FileReader(filename2));
+
+        String[] tmp_triplet = line.split("\t");
+        String id = getId(tmp_triplet[0]);
+        Pattern person_pattern = Pattern.compile(".*(ns.people.person)(.g|.da|.pr).*");
+        Matcher person_matcher = person_pattern.matcher(line);
+        Pattern link_pattern = Pattern.compile(".*(notable_for)(.display|.object).*");
+        Matcher link_matcher = link_pattern.matcher(line);
+
+        String current_line;
+        while ((current_line = br.readLine()) != null) {
+            if(current_line.contains(id) && person_matcher.matches()){
+                per.write(id + " " + tmp_triplet[1] + " " + tmp_triplet[2] + "\n");
+                per.close();
+
+                text_id.set(id);
+                value.set(tmp_triplet[1] + " " + tmp_triplet[2]);
+                context.write(text_id, value);
+
+                break;
+            }
+            else if(id.equals(current_line) && link_matcher.matches()){
+                if(tmp_triplet[2].contains("\"")){
+                    val.write(id + " " + tmp_triplet[2] + "\n");
+                    val.close();
+
+                    text_id.set(id);
+                    value.set(tmp_triplet[2]);
+                    context.write(text_id, value);
+                }
+                else{
+                    String[] link_value = tmp_triplet[2].split("/");
+                    link_value[4] = link_value[4].substring(0, link_value[4].length() - 1);
+
+                    val.write(id + " " + link_value[4] + "\n");
+                    val.close();
+
+                    text_id.set(id);
+                    value.set(link_value[4]);
+                    context.write(text_id, value);
+                }
+                break;
+            }
+        }
+
         /*String filename = "values.txt";
         Writer out = new OutputStreamWriter(new FileOutputStream(filename, true), "UTF-8");
 

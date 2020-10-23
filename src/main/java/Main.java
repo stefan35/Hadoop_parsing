@@ -12,22 +12,24 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
 
-    public class MapClassId extends Mapper<LongWritable, Text, Text, Text> {
+    public static class MapClassId extends Mapper<LongWritable, Text, Text, Text> {
         private Text id = new Text();
-        private Text value = new Text();
+        private Text person = new Text();
+        HashSet<String> seen = new HashSet<>();
 
         @Override
         public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
-            System.out.println("aaa");
             String filename = "person_id.txt";
             Writer out = new OutputStreamWriter(new FileOutputStream(filename, true), "UTF-8");
 
-            Pattern pattern = Pattern.compile("(.*?(person).*)");
+            Pattern pattern = Pattern.compile("(.*?(people.person).*)");
             String line = input_line.toString();
             Matcher matcher = pattern.matcher(line);
 
@@ -47,12 +49,15 @@ public class Main {
                 }
 
                 if(!find_line){
+                //if(!seen.contains(person_id)){
                     out.write(person_id + "\n");
                     out.close();
 
-                    value.set("person");
+                    //seen.add(person_id);
+
+                    person.set("person");
                     id.set(person_id);
-                    context.write(value, id);
+                    context.write(person, id);
                 }
             }
         }
@@ -62,7 +67,6 @@ public class Main {
             id[4] = id[4].substring(0, id[4].length() - 1);
             return id[4];
         }
-
     }
 
     public class ReduceClassId extends Reducer<Text, Text, Text, Text>{
@@ -75,36 +79,10 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        /*Configuration conf = new Configuration();
-        //conf.set("dfs.block.size", "209715200");
-        //conf.set("mapred.max.split.size", "209715200");
-        //conf.setInt("dfs.block.size",1048576);
-        //67108864ô209715200
-
-        Job job = Job.getInstance(conf, "mapreduce");
-        job.setJarByClass(Main.class);
-        //job.setCombinerClass(ReduceClass.class);
-
-        job.setMapperClass(MapClassId.class);
-        job.setReducerClass(ReduceClassId.class);
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(Text.class);
-
-        job.setMapperClass(MapClass.class);
-        job.setReducerClass(ReduceClass.class);
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(Text.class);
-
-        //job.setMapOutputKeyClass(Text.class);
-        //job.setMapOutputValueClass(Text.class);
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
-        System.exit(job.waitForCompletion(true) ? 0 : 1);*/
-
         Configuration conf1=new Configuration();
         Job j1=Job.getInstance(conf1);
         j1.setJarByClass(Main.class);
-        j1.setMapperClass(IdMapClass.class);
+        j1.setMapperClass(MapClassId.class);
 
         j1.setOutputKeyClass(Text.class);
         j1.setOutputValueClass(Text.class);
@@ -112,15 +90,16 @@ public class Main {
         FileOutputFormat.setOutputPath(j1, new Path(args[1]));
         j1.waitForCompletion(true);
 
-        /*Configuration conf2=new Configuration();
+        Configuration conf2=new Configuration();
         Job j2=Job.getInstance(conf2);
         j2.setJarByClass(Main.class);
         j2.setMapperClass(MapClass.class);
         j2.setReducerClass(ReduceClass.class);
+
         j2.setOutputKeyClass(Text.class);
         j2.setOutputValueClass(Text.class);
         FileInputFormat.addInputPath(j2,new Path(args[0]));
         FileOutputFormat.setOutputPath(j2,new Path(args[2]));
-        System.exit(j2.waitForCompletion(true)?0:1);*/
+        System.exit(j2.waitForCompletion(true)?0:1);
     }
 }

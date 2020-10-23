@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class IdMapClass extends Mapper<LongWritable, Text, Text, Text> {
     private Text id = new Text();
-    private Text value = new Text();
+    private Text person = new Text();
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
@@ -38,9 +38,9 @@ public class IdMapClass extends Mapper<LongWritable, Text, Text, Text> {
                 out.write(person_id + "\n");
                 out.close();
 
-                value.set("person_id");
+                person.set("person_id");
                 id.set(person_id);
-                context.write(value, id);
+                context.write(person, id);
             }
         }
     }
