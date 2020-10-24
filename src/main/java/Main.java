@@ -1,3 +1,4 @@
+import com.sun.jersey.server.impl.model.parameter.multivalued.StringReaderProviders;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -22,13 +23,9 @@ public class Main {
     public static class MapClassId extends Mapper<LongWritable, Text, Text, Text> {
         private Text id = new Text();
         private Text person = new Text();
-        HashSet<String> seen = new HashSet<>();
 
         @Override
         public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
-            String filename = "person_id.txt";
-            Writer out = new OutputStreamWriter(new FileOutputStream(filename, true), "UTF-8");
-
             Pattern pattern = Pattern.compile("(.*?(people.person).*)");
             String line = input_line.toString();
             Matcher matcher = pattern.matcher(line);
@@ -37,28 +34,9 @@ public class Main {
                 String[] tmp_triplet = line.split("\t");
                 String person_id = getId(tmp_triplet[0]);
 
-                BufferedReader br = new BufferedReader(new FileReader(filename));
-                boolean find_line = false;
-
-                String current_line;
-                while ((current_line = br.readLine()) != null) {
-                    if(current_line.equals(person_id)){
-                        find_line = true;
-                        break;
-                    }
-                }
-
-                if(!find_line){
-                //if(!seen.contains(person_id)){
-                    out.write(person_id + "\n");
-                    out.close();
-
-                    //seen.add(person_id);
-
-                    person.set("person");
-                    id.set(person_id);
-                    context.write(person, id);
-                }
+                person.set("person");
+                id.set(person_id);
+                context.write(person, id);
             }
         }
 
@@ -69,20 +47,45 @@ public class Main {
         }
     }
 
-    public class ReduceClassId extends Reducer<Text, Text, Text, Text>{
+    public static class ReduceClassId extends Reducer<Text, Text, Text, Text>{
+        Text id = new Text();
+
+        @Override
+        public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+            String actual = "";
+            for (Text t : values) {
+                if(actual.equals(""))
+                   actual = t.toString();
+                else if(!actual.equals(t.toString())){
+                    id.set(actual);
+                    context.write(key, id);
+                    actual = t.toString();
+                }
+            }
+            id.set(actual);
+            context.write(key, id);
+        }
+    }
+
+    /*public class ReduceClass extends Reducer<Text, Text, Text, Text> {
+
         @Override
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             for (Text t : values) {
+                System.out.println(t);
                 context.write(key, t);
             }
+            System.out.println("dalsi");
         }
-    }
+    }*/
 
     public static void main(String[] args) throws Exception {
         Configuration conf1=new Configuration();
         Job j1=Job.getInstance(conf1);
+
         j1.setJarByClass(Main.class);
         j1.setMapperClass(MapClassId.class);
+        j1.setReducerClass(ReduceClassId.class);
 
         j1.setOutputKeyClass(Text.class);
         j1.setOutputValueClass(Text.class);
@@ -90,7 +93,9 @@ public class Main {
         FileOutputFormat.setOutputPath(j1, new Path(args[1]));
         j1.waitForCompletion(true);
 
-        Configuration conf2=new Configuration();
+        Configuration conf2 = new Configuration();
+        conf2.set("idfile", args[3]);
+
         Job j2=Job.getInstance(conf2);
         j2.setJarByClass(Main.class);
         j2.setMapperClass(MapClass.class);
