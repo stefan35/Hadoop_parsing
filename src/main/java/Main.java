@@ -67,7 +67,24 @@ public class Main {
         }
     }
 
-    /*public class ReduceClass extends Reducer<Text, Text, Text, Text> {
+    public static class MapClassComplete extends Mapper<LongWritable, Text, Text, Text> {
+        private Text id = new Text();
+        private Text person = new Text();
+
+        @Override
+        public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
+            Pattern pattern = Pattern.compile("(.*?(people.person).*)");
+            String line = input_line.toString();
+            Matcher matcher = pattern.matcher(line);
+
+            person.set("person");
+            id.set("a");
+            context.write(person, id);
+
+        }
+    }
+
+    public class ReduceClassComplete extends Reducer<Text, Text, Text, Text> {
 
         @Override
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
@@ -77,7 +94,7 @@ public class Main {
             }
             System.out.println("dalsi");
         }
-    }*/
+    }
 
     public static void main(String[] args) throws Exception {
         Configuration conf1=new Configuration();
@@ -97,14 +114,32 @@ public class Main {
         conf2.set("idfile", args[3]);
 
         Job j2=Job.getInstance(conf2);
+        //
         j2.setJarByClass(Main.class);
         j2.setMapperClass(MapClass.class);
         j2.setReducerClass(ReduceClass.class);
+        //j2.setReducerClass(ReduceClassComplete.class);
 
         j2.setOutputKeyClass(Text.class);
         j2.setOutputValueClass(Text.class);
         FileInputFormat.addInputPath(j2,new Path(args[0]));
         FileOutputFormat.setOutputPath(j2,new Path(args[2]));
         System.exit(j2.waitForCompletion(true)?0:1);
+
+        /*Configuration conf3 = new Configuration();
+        conf3.set("idfile", args[3]);
+
+        Job j3=Job.getInstance(conf3);
+        //
+        j3.setJarByClass(Main.class);
+        j3.setMapperClass(MapClassComplete.class);
+        j3.setReducerClass(ReduceClassComplete.class);
+        //j2.setReducerClass(ReduceClassComplete.class);
+
+        j3.setOutputKeyClass(Text.class);
+        j3.setOutputValueClass(Text.class);
+        FileInputFormat.addInputPath(j3,new Path(args[2]));
+        FileOutputFormat.setOutputPath(j3,new Path(args[4]));
+        System.exit(j3.waitForCompletion(true)?0:1);*/
     }
 }
