@@ -1,46 +1,5 @@
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.spouse_s>	<http://rdf.freebase.com/ns/m.0xntkbn>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.agent>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/film.producer>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/film.producer.film>	<http://rdf.freebase.com/ns/m.0dgpj_9>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/people.deceased_person>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.deceased_person.place_of_death>	<http://rdf.freebase.com/ns/m.080g3>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.deceased_person.date_of_death>	"2008-03-20"^^<http://www.w3.org/2001/XMLSchema#date>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/common.topic.notable_types>	<http://rdf.freebase.com/ns/m.0jsg3l>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/key/authority.imdb.name>	"nm0080035"	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.parents>	<http://rdf.freebase.com/ns/m.0xntk6r>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/common.topic.notable_for>	<http://rdf.freebase.com/ns/g.11btxkmwk3>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/kg.object_profile.prominent_type>	<http://rdf.freebase.com/ns/film.producer>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/common.topic.description>	"René Bezard was a film producer."@en	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.place_of_birth>	<http://rdf.freebase.com/ns/m.04r5c>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.key>	"/authority/imdb/name/nm0080035"	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/people.person>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.parents>	<http://rdf.freebase.com/ns/m.0xntk7k>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.animate>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.profession>	<http://rdf.freebase.com/ns/m.01d_h8>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.name>	"René Bezard"@it	.
 <http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.date_of_birth>	"1920-08-07"^^<http://www.w3.org/2001/XMLSchema#date>	.
 <http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.gender>	<http://rdf.freebase.com/ns/m.05zppz>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/base.type_ontology.physically_instantiable>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/common.topic.topic_equivalent_webpage>	<http://www.imdb.com/name/nm0080035/>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/people.person.nationality>	<http://rdf.freebase.com/ns/m.0f8l9c>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/2000/01/rdf-schema#label>	"René Bezard"@it	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.name>	"René Bezard"@en	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/2000/01/rdf-schema#label>	"René Bezard"@en	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/common.topic>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.agent>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/film.producer>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/people.deceased_person>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/people.person>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.animate>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://rdf.freebase.com/ns/base.type_ontology.physically_instantiable>	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.name>	"René Bezard"@it	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/2000/01/rdf-schema#label>	"René Bezard"@it	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.name>	"René Bezard"@en	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/2000/01/rdf-schema#label>	"René Bezard"@en	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/2000/01/rdf-schema#label>	"René Bezard"@en	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.name>	"René Bezard"@it	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://rdf.freebase.com/ns/type.object.name>	"René Bezard"@en	.
-<http://rdf.freebase.com/ns/g.11x7vn61k>	<http://www.w3.org/2000/01/rdf-schema#label>	"René Bezard"@it	.
 <http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/type.object.type>	<http://rdf.freebase.com/ns/book.author>	.
 <http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/people.person.nationality>	<http://rdf.freebase.com/ns/m.06mkj>	.
 <http://rdf.freebase.com/ns/g.124xw1pq6>	<http://rdf.freebase.com/ns/freebase.valuenotation.is_reviewed>	<http://rdf.freebase.com/ns/m.0jsd7n>	.

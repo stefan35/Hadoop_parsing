@@ -11,12 +11,9 @@ import org.apache.hadoop.mapreduce.Mapper;
 public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
     private Text text_id = new Text();
     private Text value = new Text();
-    private ArrayList<String> person = new ArrayList<String>();
-    private ArrayList<String> attributes = new ArrayList<String>();
-    private ArrayList<String> tmp_attributes = new ArrayList<String>();
-    private ArrayList<String> tmp_list = new ArrayList<String>();
     String current = "";
-    String attribute_id = "";
+    String previous = "";
+    Boolean person = false;
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
@@ -35,52 +32,83 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
 
         //pamatat si id
         //potom preskocit
-        String current_line;
-        try(BufferedReader br = new BufferedReader(new FileReader(idfile))) {
-            while ((current_line = br.readLine()) != null) {
-                if (current_line.contains(id) && person_matcher.matches()) {
-                    String[] attribute = tmp_triplet[1].split("\\.");
-                    attribute[4] = attribute[4].substring(0, attribute[4].length() - 1);
-                    //persony + atributy + hodnota
-                    if (tmp_triplet[2].contains("\"")) {
-                        if(date_matcher.find()) {
+        if(!current.equals(id)) {
+            person = false;
+            current = id;
+            String current_line;
+            try (BufferedReader br = new BufferedReader(new FileReader(idfile))) {
+                while ((current_line = br.readLine()) != null) {
+                    if (current_line.contains(id)) {
+                        person = true;
+                        if (person_matcher.matches()) {
+                            String[] attribute = tmp_triplet[1].split("\\.");
+                            attribute[4] = attribute[4].substring(0, attribute[4].length() - 1);
+                            //persony + atributy + hodnota
+                            if (tmp_triplet[2].contains("\"")) {
+                                if (date_matcher.find()) {
+                                    text_id.set(id);
+                                    value.set(attribute[4] + " " + date_matcher.group(0));
+                                    context.write(text_id, value);
+                                } else {
+                                    text_id.set(id);
+                                    value.set(attribute[4] + " " + tmp_triplet[2]);
+                                    context.write(text_id, value);
+                                }
+                            } else {
+                                String[] link_value = tmp_triplet[2].split("/");
+                                link_value[4] = link_value[4].substring(0, link_value[4].length() - 1);
+
+                                text_id.set(id);
+                                value.set(attribute[4] + " " + link_value[4]);
+                                context.write(text_id, value);
+                            }
+                            //break;
+                        }
+                    /*else if (link_matcher.matches()) {
+                        person = true;
+                        //hodnoty
+                        if (tmp_triplet[2].contains("\"")) {
                             text_id.set(id);
-                            value.set(attribute[4] + " " + date_matcher.group(0));
+                            value.set(tmp_triplet[2]);
+                            context.write(text_id, value);
+                        } else {
+                            String[] link_value = tmp_triplet[2].split("/");
+                            link_value[4] = link_value[4].substring(0, link_value[4].length() - 1);
+
+                            text_id.set(id);
+                            value.set(link_value[4]);
                             context.write(text_id, value);
                         }
-                        else{
-                            text_id.set(id);
-                            value.set(attribute[4] + " " + tmp_triplet[2]);
-                            context.write(text_id, value);
-                        }
-                    } else {
-                        String[] link_value = tmp_triplet[2].split("/");
-                        link_value[4] = link_value[4].substring(0, link_value[4].length() - 1);
-
-                        text_id.set(id);
-                        value.set(attribute[4] + " " + link_value[4]);
-                        context.write(text_id, value);
+                        break;
+                    }*/
                     }
-                    break;
-                } else if (current_line.contains(id) && link_matcher.matches()) {
-                    //hodnoty
-                    if (tmp_triplet[2].contains("\"")) {
-                        text_id.set(id);
-                        value.set(tmp_triplet[2]);
-                        context.write(text_id, value);
-                    } else {
-                        String[] link_value = tmp_triplet[2].split("/");
-                        link_value[4] = link_value[4].substring(0, link_value[4].length() - 1);
-
-                        text_id.set(id);
-                        value.set(link_value[4]);
-                        context.write(text_id, value);
-                    }
-                    break;
                 }
-            }
-        }catch (Exception e){
+            } catch (Exception e) {
 
+            }
+        }
+        else if(person && person_matcher.matches()){
+            String[] attribute = tmp_triplet[1].split("\\.");
+            attribute[4] = attribute[4].substring(0, attribute[4].length() - 1);
+            //persony + atributy + hodnota
+            if (tmp_triplet[2].contains("\"")) {
+                if (date_matcher.find()) {
+                    text_id.set(id);
+                    value.set(attribute[4] + " " + date_matcher.group(0));
+                    context.write(text_id, value);
+                } else {
+                    text_id.set(id);
+                    value.set(attribute[4] + " " + tmp_triplet[2]);
+                    context.write(text_id, value);
+                }
+            } else {
+                String[] link_value = tmp_triplet[2].split("/");
+                link_value[4] = link_value[4].substring(0, link_value[4].length() - 1);
+
+                text_id.set(id);
+                value.set(attribute[4] + " " + link_value[4]);
+                context.write(text_id, value);
+            }
         }
     }
 
@@ -89,4 +117,5 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         id[4] = id[4].substring(0, id[4].length() - 1);
         return id[4];
     }
+
 }
