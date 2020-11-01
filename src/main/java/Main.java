@@ -26,12 +26,18 @@ public class Main {
 
         @Override
         public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
-            Pattern pattern = Pattern.compile("(.*?(people.person).*)");
             String line = input_line.toString();
-            Matcher matcher = pattern.matcher(line);
+            String[] tmp_triplet = line.split("\t");
 
-            if(matcher.matches()) {
-                String[] tmp_triplet = line.split("\t");
+            Pattern pattern = Pattern.compile("(.*?(people.person).*)");
+            Matcher matcher = pattern.matcher(tmp_triplet[1]);
+            Pattern link_pattern = Pattern.compile(".*((people.person)(.g|.p)).*");
+            Matcher link_matcher = link_pattern.matcher(tmp_triplet[2]);
+
+            //upravit regex id pre linky a persony
+
+            if(matcher.matches() || link_matcher.matches()) {
+
                 String person_id = getId(tmp_triplet[0]);
 
                 person.set("person");
@@ -82,10 +88,10 @@ public class Main {
             Matcher person_matcher = person_pattern.matcher(line);
             Pattern list_pattern = Pattern.compile("\\[([^\\]\\[]*)\\]");
             Matcher list_matcher = list_pattern.matcher(line);
+            String[] tt = line.split("\t");
 
             if(!person_matcher.matches()) {
-                String[] tt = line.split("\t");
-                person.set("final_person");
+                person.set(tt[0]);
                 value.set(tt[1]);
                 context.write(person, value);
                 return;
@@ -126,7 +132,7 @@ public class Main {
                 } catch (Exception e) {
 
                 }
-                person.set("final_person");
+                person.set(tt[0]);
                 value.set(String.valueOf(a));
                 context.write(person, value);
             }

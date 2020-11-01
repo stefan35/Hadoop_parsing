@@ -17,6 +17,9 @@ public class ReduceLink extends Reducer<Text, Text, Text, Text> {
             a.add(t.toString());
         }
 
+        if(a.size() == 0)
+            return;
+
         for(int i = 0; i < a.size(); i++){
             if(!a.get(i).contains("\"")){
                 if(all_links.add(a.get(i))) {
