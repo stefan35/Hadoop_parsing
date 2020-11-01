@@ -68,6 +68,8 @@ public class Main {
     }
 
     public static class MapMerge extends Mapper<LongWritable, Text, Text, Text> {
+        Text person = new Text();
+        Text value = new Text();
 
         @Override
         public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
@@ -80,41 +82,53 @@ public class Main {
             Matcher person_matcher = person_pattern.matcher(line);
             Pattern list_pattern = Pattern.compile("\\[([^\\]\\[]*)\\]");
             Matcher list_matcher = list_pattern.matcher(line);
+
             if(!person_matcher.matches()) {
-                System.out.println(line);
+                String[] tt = line.split("\t");
+                person.set("final_person");
+                value.set(tt[1]);
+                context.write(person, value);
                 return;
             }
-
-            String current_line;
-            String list_person;
-            try (BufferedReader br = new BufferedReader(new FileReader(linkFile))) {
-                while ((current_line = br.readLine()) != null) {
-                    String[] ee = current_line.split("\t");
-                    if(person_matcher.matches()){
-                        //if(list_matcher.find()){
-                            list_person = list_matcher.group(0).substring(1, list_matcher.group(0).length() - 1);
-                            String[] attribute = list_person.split(",");
-                            for(int i = 0; i < attribute.length; i++){
-                                if(attribute[i].contains("gender")){
-                                    String[] qq = attribute[i].split(" ");
-                                    System.out.println(qq[1] + " " + ee[0]);
-                                    if(qq.length == 2 && ee[0].equals(qq[1])){
-                                        a.add(current_line);
-                                    }
-                                    else if(qq.length == 3 && ee[0].equals(qq[2])){
-                                        a.add(current_line);
-                                    }
-                                }
-                                else{
-                                    a.add(attribute[i]);
-                                }
+            else {
+                String list_person;
+                ArrayList<String> link = new ArrayList<String>();;
+                if(list_matcher.find()){
+                    list_person = list_matcher.group(0).substring(1, list_matcher.group(0).length() - 1);
+                    String[] attribute = list_person.split(",");
+                    for (int i = 0; i < attribute.length; i++) {
+                        if (!attribute[i].contains("\"")) {
+                            String[] qq = attribute[i].split(" ");
+                            if (qq.length == 2) {
+                                link.add(qq[0] + "-" + qq[1]);
+                            } else if (qq.length == 3) {
+                                link.add(qq[1] + "-" + qq[2]);
                             }
-                        //}
+                        }else {
+                            a.add(attribute[i]);
+                        }
                     }
                 }
-                System.out.println(a);
-            } catch (Exception e) {
 
+                String current_line;
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(linkFile), "UTF-8"))) {
+                    while ((current_line = br.readLine()) != null) {
+                        String[] ee = current_line.split("\t");
+                        for(int i = 0; i < link.size(); i++){
+                            if(link.get(i).contains(ee[0])){
+                                String[] aa = link.get(i).split("-");
+                                ee[1] = ee[1].replace(", ","/");
+                                ee[1] = ee[1].substring(1,  ee[1].length() - 1);
+                                a.add(aa[0] + " " + ee[1]);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+
+                }
+                person.set("final_person");
+                value.set(String.valueOf(a));
+                context.write(person, value);
             }
         }
 
