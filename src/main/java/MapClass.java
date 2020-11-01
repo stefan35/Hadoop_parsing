@@ -12,7 +12,6 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
     private Text text_id = new Text();
     private Text value = new Text();
     String current = "";
-    String previous = "";
     Boolean person = false;
 
     @Override
@@ -24,11 +23,9 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         String[] tmp_triplet = line.split("\t");
         String id = getId(tmp_triplet[0]);
         Pattern person_pattern = Pattern.compile(".*((ns.people.person)(.g|.pr)|(.object.name.)|date_of).*");
-        Matcher person_matcher = person_pattern.matcher(line);
+        Matcher person_matcher = person_pattern.matcher(tmp_triplet[1]);
         Pattern person_date = Pattern.compile("\"([0-9]{4})[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])\"|\"([0-9]{4})\"");
         Matcher date_matcher = person_date.matcher(line);
-        Pattern link_pattern = Pattern.compile(".*(notable_for)(.display|.object).*");
-        Matcher link_matcher = link_pattern.matcher(line);
 
         //pamatat si id
         //potom preskocit

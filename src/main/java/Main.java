@@ -67,32 +67,71 @@ public class Main {
         }
     }
 
-    public static class MapClassComplete extends Mapper<LongWritable, Text, Text, Text> {
-        private Text id = new Text();
-        private Text person = new Text();
+    public static class MapMerge extends Mapper<LongWritable, Text, Text, Text> {
 
         @Override
         public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
-            Pattern pattern = Pattern.compile("(.*?(people.person).*)");
+            Configuration conf = context.getConfiguration();
+            File linkFile = new File(conf.get("links"));
             String line = input_line.toString();
-            Matcher matcher = pattern.matcher(line);
+            ArrayList<String> a = new ArrayList<String>();
 
-            person.set("person");
-            id.set("a");
-            context.write(person, id);
+            Pattern person_pattern = Pattern.compile(".*(gender|profession).*");
+            Matcher person_matcher = person_pattern.matcher(line);
+            Pattern list_pattern = Pattern.compile("\\[([^\\]\\[]*)\\]");
+            Matcher list_matcher = list_pattern.matcher(line);
+            if(!person_matcher.matches()) {
+                System.out.println(line);
+                return;
+            }
 
+            String current_line;
+            String list_person;
+            try (BufferedReader br = new BufferedReader(new FileReader(linkFile))) {
+                while ((current_line = br.readLine()) != null) {
+                    String[] ee = current_line.split("\t");
+                    if(person_matcher.matches()){
+                        //if(list_matcher.find()){
+                            list_person = list_matcher.group(0).substring(1, list_matcher.group(0).length() - 1);
+                            String[] attribute = list_person.split(",");
+                            for(int i = 0; i < attribute.length; i++){
+                                if(attribute[i].contains("gender")){
+                                    String[] qq = attribute[i].split(" ");
+                                    System.out.println(qq[1] + " " + ee[0]);
+                                    if(qq.length == 2 && ee[0].equals(qq[1])){
+                                        a.add(current_line);
+                                    }
+                                    else if(qq.length == 3 && ee[0].equals(qq[2])){
+                                        a.add(current_line);
+                                    }
+                                }
+                                else{
+                                    a.add(attribute[i]);
+                                }
+                            }
+                        //}
+                    }
+                }
+                System.out.println(a);
+            } catch (Exception e) {
+
+            }
+        }
+
+        public String getId(String base_triplet){
+            String[] id = base_triplet.split("/");
+            id[4] = id[4].substring(0, id[4].length() - 1);
+            return id[4];
         }
     }
 
-    public class ReduceClassComplete extends Reducer<Text, Text, Text, Text> {
+    public static class ReduceMerge extends Reducer<Text, Text, Text, Text>{
 
         @Override
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             for (Text t : values) {
-                System.out.println(t);
                 context.write(key, t);
             }
-            System.out.println("dalsi");
         }
     }
 
@@ -103,43 +142,52 @@ public class Main {
         j1.setJarByClass(Main.class);
         j1.setMapperClass(MapClassId.class);
         j1.setReducerClass(ReduceClassId.class);
-
         j1.setOutputKeyClass(Text.class);
         j1.setOutputValueClass(Text.class);
         FileInputFormat.addInputPath(j1,new Path(args[0]));
         FileOutputFormat.setOutputPath(j1, new Path(args[1]));
         j1.waitForCompletion(true);
+        System.out.println("First job done.");
 
         Configuration conf2 = new Configuration();
         conf2.set("idfile", args[3]);
 
         Job j2=Job.getInstance(conf2);
-        //
         j2.setJarByClass(Main.class);
         j2.setMapperClass(MapClass.class);
         j2.setReducerClass(ReduceClass.class);
-        //j2.setReducerClass(ReduceClassComplete.class);
-
         j2.setOutputKeyClass(Text.class);
         j2.setOutputValueClass(Text.class);
         FileInputFormat.addInputPath(j2,new Path(args[0]));
         FileOutputFormat.setOutputPath(j2,new Path(args[2]));
-        System.exit(j2.waitForCompletion(true)?0:1);
+        j2.waitForCompletion(true);
+        System.out.println("Second job done.");
 
-        /*Configuration conf3 = new Configuration();
+        Configuration conf3 = new Configuration();
         conf3.set("idfile", args[3]);
 
         Job j3=Job.getInstance(conf3);
-        //
         j3.setJarByClass(Main.class);
-        j3.setMapperClass(MapClassComplete.class);
-        j3.setReducerClass(ReduceClassComplete.class);
-        //j2.setReducerClass(ReduceClassComplete.class);
-
+        j3.setMapperClass(MapLink.class);
+        j3.setReducerClass(ReduceLink.class);
         j3.setOutputKeyClass(Text.class);
         j3.setOutputValueClass(Text.class);
-        FileInputFormat.addInputPath(j3,new Path(args[2]));
+        FileInputFormat.addInputPath(j3,new Path(args[0]));
         FileOutputFormat.setOutputPath(j3,new Path(args[4]));
-        System.exit(j3.waitForCompletion(true)?0:1);*/
+        j3.waitForCompletion(true);
+        System.out.println("Third job done.");
+
+        Configuration conf4 = new Configuration();
+        conf4.set("links", args[6]);
+
+        Job j4=Job.getInstance(conf4);
+        j4.setJarByClass(Main.class);
+        j4.setMapperClass(MapMerge.class);
+        j4.setReducerClass(ReduceMerge.class);
+        j4.setOutputKeyClass(Text.class);
+        j4.setOutputValueClass(Text.class);
+        FileInputFormat.addInputPath(j4,new Path(args[5]));
+        FileOutputFormat.setOutputPath(j4,new Path(args[7]));
+        System.exit(j4.waitForCompletion(true)?0:1);
     }
 }
