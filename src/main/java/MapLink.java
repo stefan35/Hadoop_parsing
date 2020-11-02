@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MapLink extends Mapper<LongWritable, Text, Text, Text> {
-    private Text text_id = new Text();
+    private Text link_id = new Text();
     private Text value = new Text();
     String current = "";
     Boolean person = false;
@@ -37,16 +37,16 @@ public class MapLink extends Mapper<LongWritable, Text, Text, Text> {
                         person = true;
                         if (link_matcher.matches()) {
                             if (tmp_triplet[2].contains("\"")) {
-                                text_id.set(id);
+                                link_id.set(id);
                                 value.set(tmp_triplet[2]);
-                                context.write(text_id, value);
+                                context.write(link_id, value);
                             } else {
                                 String[] link_value = tmp_triplet[2].split("/");
                                 link_value[4] = link_value[4].substring(0, link_value[4].length() - 1);
 
-                                text_id.set(id);
+                                link_id.set(id);
                                 value.set(link_value[4]);
-                                context.write(text_id, value);
+                                context.write(link_id, value);
                             }
                         }
                     }
@@ -57,16 +57,16 @@ public class MapLink extends Mapper<LongWritable, Text, Text, Text> {
         }
         else if(person && link_matcher.matches()){
             if (tmp_triplet[2].contains("\"")) {
-                text_id.set(id);
+                link_id.set(id);
                 value.set(tmp_triplet[2]);
-                context.write(text_id, value);
+                context.write(link_id, value);
             } else {
                 String[] link_value = tmp_triplet[2].split("/");
                 link_value[4] = link_value[4].substring(0, link_value[4].length() - 1);
 
-                text_id.set(id);
+                link_id.set(id);
                 value.set(link_value[4]);
-                context.write(text_id, value);
+                context.write(link_id, value);
             }
         }
     }

@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -10,21 +9,20 @@ public class ReduceClass extends Reducer<Text, Text, Text, Text> {
 
     @Override
     public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-        Text b = new Text();
-        HashSet<String> a = new HashSet<String>();
+        Text value = new Text();
+        HashSet<String> person = new HashSet<String>();
 
-        for (Text t : values) {
-            a.add(t.toString());
+        for (Text v : values) {
+            person.add(v.toString());
         }
 
-        Iterator<String> i = a.iterator();
+        Iterator<String> i = person.iterator();
         while (i.hasNext()){
             if(i.next().matches("name.*")){
-                b.set(String.valueOf(a));
-                context.write(key, b);
+                value.set(String.valueOf(person));
+                context.write(key, value);
                 break;
             }
         }
-        //roznorode mena
     }
 }

@@ -10,23 +10,24 @@ public class ReduceLink extends Reducer<Text, Text, Text, Text> {
 
     @Override
     public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-        Text b = new Text();
-        ArrayList<String> a = new ArrayList<String>();
+        Text value = new Text();
+        ArrayList<String> link = new ArrayList<String>();
 
-        for (Text t : values) {
-            a.add(t.toString());
+        for (Text v : values) {
+            link.add(v.toString());
         }
+        System.out.println("a");
 
-        if(a.size() == 0)
+        if(link.size() == 1)
             return;
 
-        for(int i = 0; i < a.size(); i++){
-            if(!a.get(i).contains("\"")){
-                if(all_links.add(a.get(i))) {
-                    key.set(a.get(i));
-                    a.remove(i);
-                    b.set(String.valueOf(a));
-                    context.write(key, b);
+        for(int i = 0; i < link.size(); i++){
+            if(!link.get(i).contains("\"")){
+                if(all_links.add(link.get(i))) {
+                    key.set(link.get(i));
+                    link.remove(i);
+                    value.set(String.valueOf(link));
+                    context.write(key, value);
                 }
                 break;
             }
