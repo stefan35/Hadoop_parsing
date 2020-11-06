@@ -16,7 +16,6 @@ public class ReduceLink extends Reducer<Text, Text, Text, Text> {
         for (Text v : values) {
             link.add(v.toString());
         }
-        System.out.println("a");
 
         if(link.size() == 1)
             return;
