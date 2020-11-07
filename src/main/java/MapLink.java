@@ -18,7 +18,20 @@ public class MapLink extends Mapper<LongWritable, Text, Text, Text> {
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
-        Configuration conf = context.getConfiguration();
+        String line = input_line.toString();
+
+        Pattern link_pattern = Pattern.compile(".*name.*");
+        Matcher link_matcher = link_pattern.matcher(line);
+
+        if(!link_matcher.find()){
+            String[] tmp_triplet = line.split("\t");
+
+            link_id.set(tmp_triplet[0]);
+            value.set(tmp_triplet[1]);
+            context.write(link_id, value);
+        }
+
+        /*Configuration conf = context.getConfiguration();
         File idfile = new File(conf.get("idfile"));
         String line = input_line.toString();
 
@@ -68,7 +81,7 @@ public class MapLink extends Mapper<LongWritable, Text, Text, Text> {
                 value.set(link_value[4]);
                 context.write(link_id, value);
             }
-        }
+        }*/
     }
 
     public String getId(String base_triplet){

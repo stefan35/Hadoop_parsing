@@ -9,6 +9,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
     private Text person_id = new Text();
+    private Text link_id = new Text();
     private Text value = new Text();
     String current = "";
     Boolean person = false;
@@ -25,6 +26,8 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         Matcher person_matcher = person_pattern.matcher(tmp_triplet[1]);
         Pattern person_date = Pattern.compile("\"([0-9]{4})[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])\"|\"([0-9]{4})[-](0[1-9]|1[012])\"|\"([0-9]{4})\"");
         Matcher date_matcher = person_date.matcher(line);
+        Pattern link_pattern = Pattern.compile(".*(notable_for)(.display|.object).*");
+        Matcher link_matcher = link_pattern.matcher(line);
 
         if(!current.equals(id)) {
             person = false;
@@ -45,6 +48,8 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
                                     context.write(person_id, value);
                                 } else {
                                     person_id.set(id);
+                                    if(tmp_triplet[2].contains(","))
+                                        tmp_triplet[2] = tmp_triplet[2].replace(",", ";");
                                     value.set(attribute[4] + " " + tmp_triplet[2]);
                                     context.write(person_id, value);
                                 }
@@ -55,6 +60,20 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
                                 person_id.set(id);
                                 value.set(attribute[4] + " " + link_value[4]);
                                 context.write(person_id, value);
+                            }
+                        }
+                        if (link_matcher.matches()) {
+                            if (tmp_triplet[2].contains("\"")) {
+                                link_id.set(id);
+                                value.set(tmp_triplet[2]);
+                                context.write(link_id, value);
+                            } else {
+                                String[] link_value = tmp_triplet[2].split("/");
+                                link_value[4] = link_value[4].substring(0, link_value[4].length() - 1);
+
+                                link_id.set(id);
+                                value.set(link_value[4]);
+                                context.write(link_id, value);
                             }
                         }
                     }
@@ -73,6 +92,8 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
                     context.write(person_id, value);
                 } else {
                     person_id.set(id);
+                    if(tmp_triplet[2].contains(","))
+                        tmp_triplet[2] = tmp_triplet[2].replace(",", ";");
                     value.set(attribute[4] + " " + tmp_triplet[2]);
                     context.write(person_id, value);
                 }
@@ -83,6 +104,20 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
                 person_id.set(id);
                 value.set(attribute[4] + " " + link_value[4]);
                 context.write(person_id, value);
+            }
+        }
+        else if(person && link_matcher.matches()){
+            if (tmp_triplet[2].contains("\"")) {
+                link_id.set(id);
+                value.set(tmp_triplet[2]);
+                context.write(link_id, value);
+            } else {
+                String[] link_value = tmp_triplet[2].split("/");
+                link_value[4] = link_value[4].substring(0, link_value[4].length() - 1);
+
+                link_id.set(id);
+                value.set(link_value[4]);
+                context.write(link_id, value);
             }
         }
     }
