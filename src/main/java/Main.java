@@ -11,8 +11,13 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import java.io.*;
+import java.lang.reflect.Array;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.regex.Matcher;
@@ -20,13 +25,32 @@ import java.util.regex.Pattern;
 
 public class Main {
 
-    public static class MapClassId extends Mapper<LongWritable, Text, Text, IntWritable> {
+    public static class MapClassId extends Mapper<LongWritable, Text, Text, Text> {
         private Text id = new Text();
         private final static IntWritable one = new IntWritable(1);
+        private Text person = new Text();
 
         @Override
         public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
             String line = input_line.toString();
+            String[] tmp_triplet = line.split("\t");
+
+            Pattern pattern = Pattern.compile("(.*?(ns/people\\.person).*)");
+            Matcher matcher = pattern.matcher(tmp_triplet[1]);
+            Pattern link_pattern = Pattern.compile(".*((people/person)(/gender|/profession)).*");
+            Matcher link_matcher = link_pattern.matcher(tmp_triplet[2]);
+
+            //upravit regex id pre linky a persony
+
+            if(matcher.matches() || link_matcher.matches()) {
+
+                String person_id = getId(tmp_triplet[0]);
+
+                person.set("person");
+                id.set(person_id);
+                context.write(person, id);
+            }
+            /*String line = input_line.toString();
             String[] tmp_triplet = line.split("\t");
 
             Pattern pattern = Pattern.compile("(.*(people.person).*)");
@@ -43,7 +67,7 @@ public class Main {
             else if(link_matcher.find()) {
                 id.set(person_id);
                 context.write(id, one);
-            }
+            }*/
         }
 
         public String getId(String base_triplet){
@@ -53,19 +77,32 @@ public class Main {
         }
     }
 
-    public static class ReduceClassId extends Reducer<Text, IntWritable, Text, IntWritable>{
+    public static class ReduceClassId extends Reducer<Text, Text, Text, Text>{
         Text id = new Text();
         private IntWritable value = new IntWritable(0);
 
         @Override
-        public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-            int sum = 0;
+        public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+            String actual = "";
+            for (Text t : values) {
+                if(actual.equals(""))
+                    actual = t.toString();
+                else if(!actual.equals(t.toString())){
+                    id.set(actual);
+                    context.write(key, id);
+                    actual = t.toString();
+                }
+            }
+            id.set(actual);
+            context.write(key, id);
+            /*int sum = 0;
 
             for (IntWritable value : values)
                 sum += value.get();
 
             value.set(sum);
             context.write(key, value);
+            */
         }
     }
 
@@ -155,9 +192,6 @@ public class Main {
             ArrayList<String> gender = new ArrayList<String>();
             ArrayList<String> all = new ArrayList<String>();
             String tmp_list = "";
-            String name1 = "";
-            boolean first_date = false;
-            boolean second_date = false;
 
             for (Text v : values) {
                person.add(v.toString());
@@ -165,29 +199,40 @@ public class Main {
 
             for(int i = 0; i < person.size(); i++){
                 String tmp = person.get(i).substring(1, person.get(i).length() - 1);
+                if(tmp.length() < 2)
+                    break;
                 String[] tmp_attributes = tmp.split(",");
                 for(int j = 0; j < tmp_attributes.length; j++){
 
                     if(tmp_attributes[j].contains("name")){
                         String[] tmp_find = tmp_attributes[j].split("name");
-                        name.add(tmp_find[1]);
+                        tmp_attributes[j] = tmp_attributes[j].replace("\\\"", "#");
+                        String[] attribute = tmp_attributes[j].split("\"");
+                        if(attribute[1].contains(";"))
+                            attribute[1] = attribute[1].replace(";", ",");
+                        attribute[1] = attribute[1].replace("#", "\"");
+                        name.add(attribute[1] + attribute[2]);
                     }
                     else if(tmp_attributes[j].contains("alias")){
                         String[] tmp_find = tmp_attributes[j].split("alias");
-                        alias.add(tmp_find[1]);
+                        tmp_attributes[j] = tmp_attributes[j].replace("\\\"", "#");
+                        String[] attribute = tmp_attributes[j].split("\"");
+                        if(attribute[1].contains(";"))
+                            attribute[1] = attribute[1].replace(";", ",");
+                        attribute[1] = attribute[1].replace("#", "\"");
+                        alias.add(attribute[1] + attribute[2]);
                     }
                     else if(tmp_attributes[j].contains("profession")){
                         String[] tmp_find = tmp_attributes[j].split("profession");
-                        String[] attribute = tmp_find[1].split("\"");
-                        profession.add(attribute[1]);
+                        profession.add(tmp_find[1].substring(1, tmp_find[1].length()));
+                        //profession.add(tmp_find[1]);
                     }
                     else if(tmp_attributes[j].contains("gender")){
                         String[] tmp_find = tmp_attributes[j].split("gender");
-                        String[] attribute = tmp_find[1].split("\"");
-                        gender.add(attribute[1]);
+                        gender.add(tmp_find[1].substring(1, tmp_find[1].length()));
+                        //gender.add(tmp_find[1]);
                     }
                     else if(tmp_attributes[j].contains("date_of_b")){
-                        first_date = true;
                         String[] attribute = tmp_attributes[j].split("\"");
                         attribute[0] = attribute[0].replace("\"", "");
                         attribute[0] = attribute[0].replace(" ", "");
@@ -201,6 +246,9 @@ public class Main {
                     }
                 }
             }
+
+            if(name.size() < 1)
+                return;
             tmp_list = String.join("|", name);
             all.add("name:" + tmp_list);
             if(alias.size() == 0)
@@ -221,9 +269,31 @@ public class Main {
                 tmp_list = String.join("|", gender);
                 all.add("gender:" + tmp_list);
             }
-            if(!first_date){
-                all.add("date_of_birth:" + "NONE");
+
+            JSONObject json = new JSONObject();
+            for(int i = 0; i < all.size(); i++){
+                String[] tmp_json = all.get(i).split(":");
+                try {
+                    if(tmp_json[1].contains("|")){
+                        String[] tmp_value= tmp_json[1].split("\\|");
+                        JSONArray imageArray = new JSONArray();
+                        ArrayList<String> gg = new ArrayList<String>();
+                        for(int j = 0; j < tmp_value.length; j++){
+                            gg.add(tmp_value[j]);
+                        }
+                        json.put(tmp_json[0], gg);
+                    }
+                    else
+                        json.put(tmp_json[0], tmp_json[1]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+
+
+            Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("output.json", true), "UTF-8"));
+            out.write(json.toString() + "\n");
+            out.close();
 
             value.set(String.valueOf(all));
             context.write(key, value);
@@ -238,7 +308,7 @@ public class Main {
         j1.setMapperClass(MapClassId.class);
         j1.setReducerClass(ReduceClassId.class);
         j1.setOutputKeyClass(Text.class);
-        j1.setOutputValueClass(IntWritable.class);
+        j1.setOutputValueClass(Text.class);
         FileInputFormat.addInputPath(j1,new Path(args[0]));
         FileOutputFormat.setOutputPath(j1, new Path(args[1]));
         j1.waitForCompletion(true);
@@ -273,6 +343,7 @@ public class Main {
 
         Configuration conf4 = new Configuration();
         conf4.set("links", args[6]);
+        //File f = new File(args[8]);
 
 
         Job j4=Job.getInstance(conf4);
@@ -282,6 +353,9 @@ public class Main {
         j4.setOutputKeyClass(Text.class);
         j4.setOutputValueClass(Text.class);
         FileInputFormat.addInputPath(j4,new Path(args[4]));
+        /*if(f.exists() && !f.isDirectory()) {
+            FileInputFormat.addInputPath(j4,new Path(args[8]));
+        }*/
         FileOutputFormat.setOutputPath(j4,new Path(args[7]));
         System.exit(j4.waitForCompletion(true)?0:1);
     }

@@ -20,6 +20,8 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         File idfile = new File(conf.get("idfile"));
         String line = input_line.toString();
 
+        //Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("debug.txt", true), "UTF-8"));
+
         String[] tmp_triplet = line.split("\t");
         String id = getId(tmp_triplet[0]);
         Pattern person_pattern = Pattern.compile(".*((ns.people.person)(.g|.pr)|(person.date_of)|(.object.name.)|(topic.alias)).*");
@@ -50,6 +52,7 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
                                     person_id.set(id);
                                     if(tmp_triplet[2].contains(","))
                                         tmp_triplet[2] = tmp_triplet[2].replace(",", ";");
+
                                     value.set(attribute[4] + " " + tmp_triplet[2]);
                                     context.write(person_id, value);
                                 }
@@ -76,6 +79,7 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
                                 context.write(link_id, value);
                             }
                         }
+                        break;
                     }
                 }
             } catch (Exception e) {
