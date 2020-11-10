@@ -11,7 +11,6 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -27,8 +26,8 @@ public class Main {
 
     public static class MapClassId extends Mapper<LongWritable, Text, Text, Text> {
         private Text id = new Text();
-        private final static IntWritable one = new IntWritable(1);
         private Text person = new Text();
+        //private final static IntWritable one = new IntWritable(1);
 
         @Override
         public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
@@ -40,13 +39,10 @@ public class Main {
             Pattern link_pattern = Pattern.compile(".*((people/person)(/gender|/profession)).*");
             Matcher link_matcher = link_pattern.matcher(tmp_triplet[2]);
 
-            //upravit regex id pre linky a persony
-
             if(matcher.matches() || link_matcher.matches()) {
-
                 String person_id = getId(tmp_triplet[0]);
 
-                person.set("person");
+                person.set("id");
                 id.set(person_id);
                 context.write(person, id);
             }
@@ -79,11 +75,12 @@ public class Main {
 
     public static class ReduceClassId extends Reducer<Text, Text, Text, Text>{
         Text id = new Text();
-        private IntWritable value = new IntWritable(0);
+        //private IntWritable value = new IntWritable(0);
 
         @Override
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             String actual = "";
+
             for (Text t : values) {
                 if(actual.equals(""))
                     actual = t.toString();
@@ -93,6 +90,7 @@ public class Main {
                     actual = t.toString();
                 }
             }
+
             id.set(actual);
             context.write(key, id);
             /*int sum = 0;
@@ -172,12 +170,6 @@ public class Main {
                 context.write(person, value);
             }
         }
-
-        public String getId(String base_triplet){
-            String[] id = base_triplet.split("/");
-            id[4] = id[4].substring(0, id[4].length() - 1);
-            return id[4];
-        }
     }
 
     public static class ReduceMerge extends Reducer<Text, Text, Text, Text>{
@@ -199,9 +191,11 @@ public class Main {
 
             for(int i = 0; i < person.size(); i++){
                 String tmp = person.get(i).substring(1, person.get(i).length() - 1);
+
                 if(tmp.length() < 2)
                     break;
                 String[] tmp_attributes = tmp.split(",");
+
                 for(int j = 0; j < tmp_attributes.length; j++){
 
                     if(tmp_attributes[j].contains("name")){
@@ -249,8 +243,10 @@ public class Main {
 
             if(name.size() < 1)
                 return;
+
             tmp_list = String.join("|", name);
             all.add("name:" + tmp_list);
+
             if(alias.size() == 0)
                 all.add("alias:" + "NONE");
             else if(!(alias.size() == 0)) {
@@ -276,12 +272,11 @@ public class Main {
                 try {
                     if(tmp_json[1].contains("|")){
                         String[] tmp_value= tmp_json[1].split("\\|");
-                        JSONArray imageArray = new JSONArray();
-                        ArrayList<String> gg = new ArrayList<String>();
+                        ArrayList<String> array = new ArrayList<String>();
                         for(int j = 0; j < tmp_value.length; j++){
-                            gg.add(tmp_value[j]);
+                            array.add(tmp_value[j]);
                         }
-                        json.put(tmp_json[0], gg);
+                        json.put(tmp_json[0], array);
                     }
                     else
                         json.put(tmp_json[0], tmp_json[1]);
@@ -289,7 +284,6 @@ public class Main {
                     e.printStackTrace();
                 }
             }
-
 
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("output.json", true), "UTF-8"));
             out.write(json.toString() + "\n");
@@ -343,8 +337,6 @@ public class Main {
 
         Configuration conf4 = new Configuration();
         conf4.set("links", args[6]);
-        //File f = new File(args[8]);
-
 
         Job j4=Job.getInstance(conf4);
         j4.setJarByClass(Main.class);
@@ -353,9 +345,6 @@ public class Main {
         j4.setOutputKeyClass(Text.class);
         j4.setOutputValueClass(Text.class);
         FileInputFormat.addInputPath(j4,new Path(args[4]));
-        /*if(f.exists() && !f.isDirectory()) {
-            FileInputFormat.addInputPath(j4,new Path(args[8]));
-        }*/
         FileOutputFormat.setOutputPath(j4,new Path(args[7]));
         System.exit(j4.waitForCompletion(true)?0:1);
     }

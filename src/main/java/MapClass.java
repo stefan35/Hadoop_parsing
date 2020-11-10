@@ -20,8 +20,6 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         File idfile = new File(conf.get("idfile"));
         String line = input_line.toString();
 
-        //Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("debug.txt", true), "UTF-8"));
-
         String[] tmp_triplet = line.split("\t");
         String id = getId(tmp_triplet[0]);
         Pattern person_pattern = Pattern.compile(".*((ns.people.person)(.g|.pr)|(person.date_of)|(.object.name.)|(topic.alias)).*");
