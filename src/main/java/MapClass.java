@@ -1,11 +1,18 @@
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.LocalFileSystem;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 
 public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
     private Text person_id = new Text();
@@ -16,8 +23,24 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
+        /*Configuration conf = new Configuration();
+        Path pt = new Path("/id/part-r-00000");
+        FileSystem fs = null;
+        try {
+            fs = FileSystem.get( new URI("/id"), conf);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        LocalFileSystem localFileSystem = fs.getLocal(conf);*/
+
         Configuration conf = context.getConfiguration();
-        File idfile = new File(conf.get("idfile"));
+        FileSystem fileSystem = FileSystem.get(conf);
+        Path path = new Path(conf.get("idfile"));
+        //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileSystem.open(path)));
+        //String line = bufferedReader.readLine();
+
+        //Configuration conf = context.getConfiguration();
+        //File idfile = new File(conf.get("idfile"));
         String line = input_line.toString();
 
         String[] tmp_triplet = line.split("\t");
@@ -34,7 +57,8 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
             current = id;
             String current_line;
 
-            try (BufferedReader br = new BufferedReader(new FileReader(idfile))) {
+            //try (BufferedReader br = new BufferedReader(new FileReader(String.valueOf(idfile)))) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(fileSystem.open(path)))) {
                 while ((current_line = br.readLine()) != null) {
                     if (current_line.contains(id)) {
                         person = true;

@@ -1,5 +1,7 @@
 import com.sun.jersey.server.impl.model.parameter.multivalued.StringReaderProviders;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -11,6 +13,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.util.Progressable;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -110,8 +113,12 @@ public class Main {
 
         @Override
         public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
+            /*Configuration conf = context.getConfiguration();
+            File linkFile = new File(conf.get("links"));*/
             Configuration conf = context.getConfiguration();
-            File linkFile = new File(conf.get("links"));
+            FileSystem fileSystem = FileSystem.get(conf);
+            Path path = new Path(conf.get("links"));
+
             String line = input_line.toString();
             ArrayList<String> final_person = new ArrayList<String>();
 
@@ -150,7 +157,8 @@ public class Main {
                 }
 
                 String current_line;
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(linkFile), "UTF-8"))) {
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(fileSystem.open(path)))) {
+                //try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(linkFile), "UTF-8"))) {
                     while ((current_line = br.readLine()) != null) {
                         String[] tmp_link_file = current_line.split("\t");
                         for(int i = 0; i < prepare_link.size(); i++){
@@ -285,6 +293,21 @@ public class Main {
                 }
             }
 
+            /*Configuration configuration = new Configuration();
+            FileSystem hdfs = FileSystem.get(configuration);
+            Path file = new Path("/json/output.json");
+            FSDataOutputStream fileOutputStream = null;
+
+            if (hdfs.exists(file)) {
+                fileOutputStream = hdfs.append(file);
+                fileOutputStream.writeBytes(json.toString() + "\n");
+                fileOutputStream.close();
+            } else {
+                fileOutputStream = hdfs.create(file);
+                fileOutputStream.writeBytes(json.toString() + "\n");
+                fileOutputStream.close();
+            }*/
+
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("output.json", true), "UTF-8"));
             out.write(json.toString() + "\n");
             out.close();
@@ -309,7 +332,8 @@ public class Main {
         System.out.println("First job done.");
 
         Configuration conf2 = new Configuration();
-        conf2.set("idfile", args[3]);
+        Path path1 = new Path(args[3]);
+        conf2.set("idfile", String.valueOf(path1));
 
         Job j2=Job.getInstance(conf2);
         j2.setJarByClass(Main.class);
@@ -336,7 +360,8 @@ public class Main {
         System.out.println("Third job done.");
 
         Configuration conf4 = new Configuration();
-        conf4.set("links", args[6]);
+        Path path2 = new Path(args[6]);
+        conf4.set("links", String.valueOf(path2));
 
         Job j4=Job.getInstance(conf4);
         j4.setJarByClass(Main.class);

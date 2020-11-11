@@ -31,7 +31,6 @@ public class ReduceClass extends Reducer<Text, Text, Text, Text> {
             person_matcher = person_pattern.matcher(v.toString());
             name_matcher = name_pattern.matcher(v.toString());
 
-            //System.out.println(v.toString());
             if((name_matcher.find() && v.toString().contains("alias")) || (person_matcher.find() && !v.toString().contains("@en-") && !v.toString().contains("alias")))
                 person.add(v.toString());
             link.add(v.toString());
