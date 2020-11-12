@@ -10,7 +10,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 public class ReduceClass extends Reducer<Text, Text, Text, Text> {
     Text value = new Text();
     HashSet<String> all_links = new HashSet<String>();
-    public static HashMap<String, String> link_map = new HashMap<String, String>();
+    //public static HashMap<String, String> link_map = new HashMap<String, String>();
     boolean new_link = false;
 
     @Override
@@ -64,14 +64,14 @@ public class ReduceClass extends Reducer<Text, Text, Text, Text> {
                 ArrayList<String> tmp = new ArrayList<String>();
                 tmp.add(split_value[1]);
 
-                link_map.put(String.valueOf(key), split_value[1]);
+                //link_map.put(String.valueOf(key), split_value[1]);
                 value.set(String.valueOf(tmp));
                 context.write(key, value);
             }
         }
     }
 
-    public HashMap<String, String> getAllLink(){
-        return link_map;
-    }
+    //public HashMap<String, String> getAllLink(){
+    //    return link_map;
+    //}
 }

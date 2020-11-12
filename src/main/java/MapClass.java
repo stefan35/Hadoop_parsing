@@ -2,6 +2,8 @@ import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.regex.Matcher;
@@ -23,11 +25,32 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
     String current = "";
     Boolean person = false;
     Main mainObject = new Main();
-    public static HashSet<String> load_id = new HashSet<String>();
+    static HashSet<String> load_id = new HashSet<String>();
+    boolean first_time_id = true;
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
-        load_id = mainObject.getLoadedId();
+        if(first_time_id) {
+            Configuration conf = context.getConfiguration();
+            FileSystem fileSystem = FileSystem.get(conf);
+            Path path = new Path(conf.get("idfile"));
+
+            String current_line = "";
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(fileSystem.open(path)))) {
+                while ((current_line = br.readLine()) != null) {
+                    String[] tmp_id = current_line.split("\t");
+                    load_id.add(tmp_id[0]);
+                }
+            }
+            first_time_id = false;
+        }
+
+        /*Configuration conf = context.getConfiguration();
+        String a = conf.get("idfile");
+        a = a.replace(" ", "");
+        a = a.substring(1, a.length() - 1);
+        String[] ary = a.split(",");
+        HashSet<String> mySet = new HashSet<String>(Arrays.asList(ary));*/
         String line = input_line.toString();
 
         String[] tmp_triplet = line.split("\t");
@@ -131,4 +154,7 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         return id[4];
     }
 
+    public void set(HashSet<String> load_id) {
+        this.load_id = load_id;
+    }
 }

@@ -14,7 +14,6 @@ import org.codehaus.jettison.json.JSONObject;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -103,17 +102,17 @@ public class Main {
     public static class MapMerge extends Mapper<LongWritable, Text, Text, Text> {
         Text person = new Text();
         Text value = new Text();
-        ReduceClass rc = new ReduceClass();
-        public static HashMap<String, String> link_map = new HashMap<String, String>();
+        //ReduceClass rc = new ReduceClass();
+        //public static HashMap<String, String> link_map = new HashMap<String, String>();
 
         @Override
         public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
             /*Configuration conf = context.getConfiguration();
             File linkFile = new File(conf.get("links"));*/
-            link_map = rc.getAllLink();
-            //Configuration conf = context.getConfiguration();
-            //FileSystem fileSystem = FileSystem.get(conf);
-            //Path path = new Path(conf.get("links"));
+            //link_map = rc.getAllLink();
+            Configuration conf = context.getConfiguration();
+            FileSystem fileSystem = FileSystem.get(conf);
+            Path path = new Path(conf.get("links"));
 
             String line = input_line.toString();
             ArrayList<String> final_person = new ArrayList<String>();
@@ -153,11 +152,20 @@ public class Main {
                 }
 
                 String current_line;
-                for (int i = 0; i < prepare_link.size(); i++) {
-                    String[] match_link = prepare_link.get(i).split("-");
-                    if (link_map.containsKey(match_link[1])) {
-                        final_person.add(match_link[0] + " " + link_map.get(match_link[1]));
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(fileSystem.open(path)))) {
+                    //try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(linkFile), "UTF-8"))) {
+                    while ((current_line = br.readLine()) != null) {
+                        String[] tmp_link_file = current_line.split("\t");
+                        for(int i = 0; i < prepare_link.size(); i++){
+                            if(prepare_link.get(i).contains(tmp_link_file[0])){
+                                String[] match_link = prepare_link.get(i).split("-");
+                                tmp_link_file[1] = tmp_link_file[1].substring(1,  tmp_link_file[1].length() - 1);
+                                final_person.add(match_link[0] + " " + tmp_link_file[1]);
+                            }
+                        }
                     }
+                } catch (Exception e) {
+
                 }
                 person.set(tmp_person_link[0]);
                 value.set(String.valueOf(final_person));
@@ -177,6 +185,7 @@ public class Main {
             ArrayList<String> profession = new ArrayList<String>();
             ArrayList<String> gender = new ArrayList<String>();
             ArrayList<String> all = new ArrayList<String>();
+            String person_name = "";
             String tmp_list = "";
 
             for (Text v : values) {
@@ -193,16 +202,17 @@ public class Main {
                 for(int j = 0; j < tmp_attributes.length; j++){
 
                     if(tmp_attributes[j].contains("name")){
-                        String[] tmp_find = tmp_attributes[j].split("name");
+                        //String[] tmp_find = tmp_attributes[j].split("name");
                         tmp_attributes[j] = tmp_attributes[j].replace("\\\"", "#");
                         String[] attribute = tmp_attributes[j].split("\"");
                         if(attribute[1].contains(";"))
                             attribute[1] = attribute[1].replace(";", ",");
                         attribute[1] = attribute[1].replace("#", "\"");
+                        person_name = attribute[1] + attribute[2];
                         name.add(attribute[1] + attribute[2]);
                     }
                     else if(tmp_attributes[j].contains("alias")){
-                        String[] tmp_find = tmp_attributes[j].split("alias");
+                        //String[] tmp_find = tmp_attributes[j].split("alias");
                         tmp_attributes[j] = tmp_attributes[j].replace("\\\"", "#");
                         String[] attribute = tmp_attributes[j].split("\"");
                         if(attribute[1].contains(";"))
@@ -234,12 +244,16 @@ public class Main {
                     }
                 }
             }
+            //person_name
+            //alias
+            //profession
+            //gender
 
-            if(name.size() < 1)
+            if(name.size() < 1 || person_name.length() < 1)
                 return;
 
-            tmp_list = String.join("|", name);
-            all.add("name:" + tmp_list);
+            //tmp_list = String.join("|", name);
+            //all.add("name:" + tmp_list);
 
             if(alias.size() == 0)
                 all.add("alias:" + "NONE");
@@ -261,6 +275,7 @@ public class Main {
             }
 
             JSONObject json = new JSONObject();
+            JSONObject item = new JSONObject();
             for(int i = 0; i < all.size(); i++){
                 String[] tmp_json = all.get(i).split(":");
                 try {
@@ -270,15 +285,23 @@ public class Main {
                         for(int j = 0; j < tmp_value.length; j++){
                             array.add(tmp_value[j]);
                         }
-                        json.put(tmp_json[0], array);
+                        item.put(tmp_json[0], array);
                     }
                     else
-                        json.put(tmp_json[0], tmp_json[1]);
+                        item.put(tmp_json[0], tmp_json[1]);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-
+            ArrayList<JSONObject> arr = new ArrayList<>();
+            arr.add(item);
+            String final_add = "";
+            try {
+                json.put(person_name, arr);
+                final_add = json.toString() + ",";
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             /*Configuration configuration = new Configuration();
             FileSystem hdfs = FileSystem.get(configuration);
             Path file = new Path("/json/output.json");
@@ -286,17 +309,17 @@ public class Main {
 
             if (hdfs.exists(file)) {
                 fileOutputStream = hdfs.append(file);
-                fileOutputStream.writeBytes(json.toString() + "\n");
+                fileOutputStream.writeBytes(json.toString() + ",\n");
                 fileOutputStream.close();
             } else {
                 fileOutputStream = hdfs.create(file);
-                fileOutputStream.writeBytes(json.toString() + "\n");
+                fileOutputStream.writeBytes("[" + json.toString() + ",\n");
                 fileOutputStream.close();
             }*/
 
            Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("output.json", true), "UTF-8"));
-            out.write(json.toString() + "\n");
-            out.close();
+           out.write(final_add + "\n");
+           out.close();
 
             value.set(String.valueOf(all));
             context.write(key, value);
@@ -304,7 +327,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-
+        MapClass mc = new MapClass();
 
         Configuration conf1=new Configuration();
         Job j1=Job.getInstance(conf1);
@@ -319,19 +342,12 @@ public class Main {
         j1.waitForCompletion(true);
         System.out.println("First job done.");
 
-        FileSystem fileSystem = FileSystem.get(conf1);
-        Path id_file = new Path(args[3]);
-        String current_line = "";
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(fileSystem.open(id_file)))) {
-            while ((current_line = br.readLine()) != null) {
-                String[] tmp_id = current_line.split("\t");
-                load_id.add(tmp_id[0]);
-            }
-        }
 
         Configuration conf2 = new Configuration();
-        //Path path1 = new Path(args[3]);
-        //conf2.set("idfile", String.valueOf(path1));
+        Path path1 = new Path(args[3]);
+        conf2.set("idfile", String.valueOf(path1));
+        //mc.set(load_id);
+        //.out.println(String.valueOf(load_id));
 
         Job j2=Job.getInstance(conf2);
         j2.setJarByClass(Main.class);
@@ -358,8 +374,8 @@ public class Main {
         System.out.println("Third job done.");
 
         Configuration conf4 = new Configuration();
-        //Path path2 = new Path(args[6]);
-        //conf4.set("links", String.valueOf(path2));
+        Path path2 = new Path(args[6]);
+        conf4.set("links", String.valueOf(path2));
 
         Job j4=Job.getInstance(conf4);
         j4.setJarByClass(Main.class);
@@ -370,7 +386,11 @@ public class Main {
         FileInputFormat.addInputPath(j4,new Path(args[4]));
         FileOutputFormat.setOutputPath(j4,new Path(args[7]));
         System.out.println("Fourth job done.");
-        System.exit(j4.waitForCompletion(true)?0:1);
+        j4.waitForCompletion(true);
+
+        Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("output.json", true), "UTF-8"));
+        out.write("]");
+        out.close();
     }
 
     public HashSet<String> getLoadedId(){
