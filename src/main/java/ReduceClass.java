@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -13,6 +10,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 public class ReduceClass extends Reducer<Text, Text, Text, Text> {
     Text value = new Text();
     HashSet<String> all_links = new HashSet<String>();
+    public static HashMap<String, String> link_map = new HashMap<String, String>();
     boolean new_link = false;
 
     @Override
@@ -66,9 +64,14 @@ public class ReduceClass extends Reducer<Text, Text, Text, Text> {
                 ArrayList<String> tmp = new ArrayList<String>();
                 tmp.add(split_value[1]);
 
+                link_map.put(String.valueOf(key), split_value[1]);
                 value.set(String.valueOf(tmp));
                 context.write(key, value);
             }
         }
+    }
+
+    public HashMap<String, String> getAllLink(){
+        return link_map;
     }
 }

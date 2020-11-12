@@ -15,20 +15,21 @@ import org.codehaus.jettison.json.JSONObject;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
-    public static HashMap<String, String> load_id = new HashMap<String, String>();
+    public static HashSet<String> load_id = new HashSet<String>();
 
-    public static class MapClassId extends Mapper<LongWritable, Text, Text, IntWritable> {
+    public static class MapClassId extends Mapper<LongWritable, Text, Text, Text> {
         private Text id = new Text();
         private Text person = new Text();
-        private final static IntWritable one = new IntWritable(1);
+        //private IntWritable one = new IntWritable(1);
 
         @Override
         public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
-            /*String line = input_line.toString();
+            String line = input_line.toString();
             String[] tmp_triplet = line.split("\t");
 
             Pattern pattern = Pattern.compile("(.*?(ns/people\\.person\\.date).*)");
@@ -39,11 +40,11 @@ public class Main {
             if(matcher.matches() || link_matcher.matches()) {
                 String person_id = getId(tmp_triplet[0]);
 
-                person.set("id");
+                person.set("1");
                 id.set(person_id);
-                context.write(person, id);
-            }*/
-            String line = input_line.toString();
+                context.write(id, person);
+            }
+            /*String line = input_line.toString();
             String[] tmp_triplet = line.split("\t");
 
             Pattern pattern = Pattern.compile("(.*?(ns/people\\\\.person\\\\.date).*)");
@@ -56,10 +57,6 @@ public class Main {
 
                 id.set(person_id);
                 context.write(id, one);
-            }
-            /*else if(link_matcher.find()) {
-                id.set(person_id);
-                context.write(id, one);
             }*/
         }
 
@@ -70,13 +67,12 @@ public class Main {
         }
     }
 
-    public static class ReduceClassId extends Reducer<Text, IntWritable, Text, IntWritable>{
+    public static class ReduceClassId extends Reducer<Text, Text, Text, Text>{
         Text id = new Text();
-        private IntWritable value = new IntWritable(0);
+        IntWritable value = new IntWritable(0);
 
         @Override
-        public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-            /*System.out.println("reduce");
+        public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             String actual = "";
             int sum = 0;
 
@@ -85,35 +81,39 @@ public class Main {
                 if(actual.equals(""))
                     actual = t.toString();
                 else if(!actual.equals(t.toString())){
-                    id.set(actual);
+                    id.set(String.valueOf(sum));
                     context.write(key, id);
                     actual = t.toString();
                 }
             }
 
             id.set(String.valueOf(sum));
-            context.write(key, id);*/
-            int sum = 0;
+            context.write(key, id);
 
-            for (IntWritable value : values)
+            /*int sum = 0;
+
+            for (Text v : values)
                 sum += 1;
 
-            value.set(sum);
-            context.write(key, value);
+            id.set(sum);
+            context.write(key, null);*/
         }
     }
 
     public static class MapMerge extends Mapper<LongWritable, Text, Text, Text> {
         Text person = new Text();
         Text value = new Text();
+        ReduceClass rc = new ReduceClass();
+        public static HashMap<String, String> link_map = new HashMap<String, String>();
 
         @Override
         public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
             /*Configuration conf = context.getConfiguration();
             File linkFile = new File(conf.get("links"));*/
-            Configuration conf = context.getConfiguration();
-            FileSystem fileSystem = FileSystem.get(conf);
-            Path path = new Path(conf.get("links"));
+            link_map = rc.getAllLink();
+            //Configuration conf = context.getConfiguration();
+            //FileSystem fileSystem = FileSystem.get(conf);
+            //Path path = new Path(conf.get("links"));
 
             String line = input_line.toString();
             ArrayList<String> final_person = new ArrayList<String>();
@@ -126,16 +126,16 @@ public class Main {
             Matcher list_matcher_value = list_pattern.matcher(line);
             String[] tmp_person_link = line.split("\t");
 
-            if(person_matcher.matches() && !person_matcher_link.matches()) {
+            if (person_matcher.matches() && !person_matcher_link.matches()) {
                 person.set(tmp_person_link[0]);
                 value.set(tmp_person_link[1]);
                 context.write(person, value);
                 return;
-            } else if(person_matcher_link.matches()){
+            } else if (person_matcher_link.matches()) {
                 String list_person;
                 ArrayList<String> prepare_link = new ArrayList<String>();
 
-                if(list_matcher_value.find()) {
+                if (list_matcher_value.find()) {
                     list_person = list_matcher_value.group(0).substring(1, list_matcher_value.group(0).length() - 1);
                     String[] attributes = list_person.split(",");
                     for (int i = 0; i < attributes.length; i++) {
@@ -146,29 +146,19 @@ public class Main {
                             } else if (tmp_find_link.length == 3) {
                                 prepare_link.add(tmp_find_link[1] + "-" + tmp_find_link[2]);
                             }
-                        }else {
+                        } else {
                             final_person.add(attributes[i]);
                         }
                     }
                 }
 
                 String current_line;
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(fileSystem.open(path)))) {
-                //try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(linkFile), "UTF-8"))) {
-                    while ((current_line = br.readLine()) != null) {
-                        String[] tmp_link_file = current_line.split("\t");
-                        for(int i = 0; i < prepare_link.size(); i++){
-                            if(prepare_link.get(i).contains(tmp_link_file[0])){
-                                String[] match_link = prepare_link.get(i).split("-");
-                                tmp_link_file[1] = tmp_link_file[1].substring(1,  tmp_link_file[1].length() - 1);
-                                final_person.add(match_link[0] + " " + tmp_link_file[1]);
-                            }
-                        }
+                for (int i = 0; i < prepare_link.size(); i++) {
+                    String[] match_link = prepare_link.get(i).split("-");
+                    if (link_map.containsKey(match_link[1])) {
+                        final_person.add(match_link[0] + " " + link_map.get(match_link[1]));
                     }
-                } catch (Exception e) {
-
                 }
-
                 person.set(tmp_person_link[0]);
                 value.set(String.valueOf(final_person));
                 context.write(person, value);
@@ -323,7 +313,7 @@ public class Main {
         j1.setMapperClass(MapClassId.class);
         j1.setReducerClass(ReduceClassId.class);
         j1.setOutputKeyClass(Text.class);
-        j1.setOutputValueClass(IntWritable.class);
+        j1.setOutputValueClass(Text.class);
         FileInputFormat.addInputPath(j1,new Path(args[0]));
         FileOutputFormat.setOutputPath(j1, new Path(args[1]));
         j1.waitForCompletion(true);
@@ -335,7 +325,7 @@ public class Main {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(fileSystem.open(id_file)))) {
             while ((current_line = br.readLine()) != null) {
                 String[] tmp_id = current_line.split("\t");
-                load_id.put(tmp_id[0], tmp_id[0]);
+                load_id.add(tmp_id[0]);
             }
         }
 
@@ -368,8 +358,8 @@ public class Main {
         System.out.println("Third job done.");
 
         Configuration conf4 = new Configuration();
-        Path path2 = new Path(args[6]);
-        conf4.set("links", String.valueOf(path2));
+        //Path path2 = new Path(args[6]);
+        //conf4.set("links", String.valueOf(path2));
 
         Job j4=Job.getInstance(conf4);
         j4.setJarByClass(Main.class);
@@ -379,10 +369,11 @@ public class Main {
         j4.setOutputValueClass(Text.class);
         FileInputFormat.addInputPath(j4,new Path(args[4]));
         FileOutputFormat.setOutputPath(j4,new Path(args[7]));
+        System.out.println("Fourth job done.");
         System.exit(j4.waitForCompletion(true)?0:1);
     }
 
-    public HashMap<String, String> getLoadedId(){
+    public HashSet<String> getLoadedId(){
         return load_id;
     }
 }

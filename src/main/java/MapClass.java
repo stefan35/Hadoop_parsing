@@ -3,6 +3,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,8 +23,7 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
     String current = "";
     Boolean person = false;
     Main mainObject = new Main();
-    HashMap<String, String> load_id = new HashMap<String, String>();
-
+    public static HashSet<String> load_id = new HashSet<String>();
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
@@ -38,12 +38,11 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         Matcher date_matcher = person_date.matcher(line);
         Pattern link_pattern = Pattern.compile(".*(notable_for)(.display|.object).*");
         Matcher link_matcher = link_pattern.matcher(line);
-
         if(!current.equals(id)) {
             person = false;
             current = id;
 
-            if (load_id.get(id) != null) {
+            if (load_id.contains(id)) {
                 person = true;
                 if (person_matcher.matches()) {
                     String[] attribute = tmp_triplet[1].split("\\.");
