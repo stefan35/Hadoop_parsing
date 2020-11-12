@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,27 +21,13 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
     private Text value = new Text();
     String current = "";
     Boolean person = false;
+    Main mainObject = new Main();
+    HashMap<String, String> load_id = new HashMap<String, String>();
+
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
-        /*Configuration conf = new Configuration();
-        Path pt = new Path("/id/part-r-00000");
-        FileSystem fs = null;
-        try {
-            fs = FileSystem.get( new URI("/id"), conf);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        LocalFileSystem localFileSystem = fs.getLocal(conf);*/
-
-        Configuration conf = context.getConfiguration();
-        FileSystem fileSystem = FileSystem.get(conf);
-        Path path = new Path(conf.get("idfile"));
-        //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileSystem.open(path)));
-        //String line = bufferedReader.readLine();
-
-        //Configuration conf = context.getConfiguration();
-        //File idfile = new File(conf.get("idfile"));
+        load_id = mainObject.getLoadedId();
         String line = input_line.toString();
 
         String[] tmp_triplet = line.split("\t");
@@ -55,57 +42,48 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         if(!current.equals(id)) {
             person = false;
             current = id;
-            String current_line;
 
-            //try (BufferedReader br = new BufferedReader(new FileReader(String.valueOf(idfile)))) {
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(fileSystem.open(path)))) {
-                while ((current_line = br.readLine()) != null) {
-                    if (current_line.contains(id)) {
-                        person = true;
-                        if (person_matcher.matches()) {
-                            String[] attribute = tmp_triplet[1].split("\\.");
-                            attribute[4] = attribute[4].substring(0, attribute[4].length() - 1);
-                            if (tmp_triplet[2].contains("\"")) {
-                                if (date_matcher.find()) {
-                                    person_id.set(id);
-                                    value.set(attribute[4] + " " + date_matcher.group(0));
-                                    context.write(person_id, value);
-                                } else {
-                                    person_id.set(id);
-                                    if(tmp_triplet[2].contains(","))
-                                        tmp_triplet[2] = tmp_triplet[2].replace(",", ";");
+            if (load_id.get(id) != null) {
+                person = true;
+                if (person_matcher.matches()) {
+                    String[] attribute = tmp_triplet[1].split("\\.");
+                    attribute[4] = attribute[4].substring(0, attribute[4].length() - 1);
+                    if (tmp_triplet[2].contains("\"")) {
+                        if (date_matcher.find()) {
+                            person_id.set(id);
+                            value.set(attribute[4] + " " + date_matcher.group(0));
+                            context.write(person_id, value);
+                        } else {
+                            person_id.set(id);
+                            if(tmp_triplet[2].contains(","))
+                                tmp_triplet[2] = tmp_triplet[2].replace(",", ";");
 
-                                    value.set(attribute[4] + " " + tmp_triplet[2]);
-                                    context.write(person_id, value);
-                                }
-                            } else {
-                                String[] link_value = tmp_triplet[2].split("/");
-                                link_value[4] = link_value[4].substring(0, link_value[4].length() - 1);
-
-                                person_id.set(id);
-                                value.set(attribute[4] + " " + link_value[4]);
-                                context.write(person_id, value);
-                            }
+                            value.set(attribute[4] + " " + tmp_triplet[2]);
+                            context.write(person_id, value);
                         }
-                        if (link_matcher.matches()) {
-                            if (tmp_triplet[2].contains("\"")) {
-                                link_id.set(id);
-                                value.set(tmp_triplet[2]);
-                                context.write(link_id, value);
-                            } else {
-                                String[] link_value = tmp_triplet[2].split("/");
-                                link_value[4] = link_value[4].substring(0, link_value[4].length() - 1);
+                    } else {
+                        String[] link_value = tmp_triplet[2].split("/");
+                        link_value[4] = link_value[4].substring(0, link_value[4].length() - 1);
 
-                                link_id.set(id);
-                                value.set(link_value[4]);
-                                context.write(link_id, value);
-                            }
-                        }
-                        break;
+                        person_id.set(id);
+                        value.set(attribute[4] + " " + link_value[4]);
+                        context.write(person_id, value);
                     }
                 }
-            } catch (Exception e) {
+                if (link_matcher.matches()) {
+                    if (tmp_triplet[2].contains("\"")) {
+                        link_id.set(id);
+                        value.set(tmp_triplet[2]);
+                        context.write(link_id, value);
+                    } else {
+                        String[] link_value = tmp_triplet[2].split("/");
+                        link_value[4] = link_value[4].substring(0, link_value[4].length() - 1);
 
+                        link_id.set(id);
+                        value.set(link_value[4]);
+                        context.write(link_id, value);
+                    }
+                }
             }
         }
         else if(person && person_matcher.matches()){

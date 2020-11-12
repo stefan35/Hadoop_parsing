@@ -1,43 +1,37 @@
-import com.sun.jersey.server.impl.model.parameter.multivalued.StringReaderProviders;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.JobClient;
-import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.util.Progressable;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import java.io.*;
-import java.lang.reflect.Array;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
+    public static HashMap<String, String> load_id = new HashMap<String, String>();
 
-    public static class MapClassId extends Mapper<LongWritable, Text, Text, Text> {
+    public static class MapClassId extends Mapper<LongWritable, Text, Text, IntWritable> {
         private Text id = new Text();
         private Text person = new Text();
-        //private final static IntWritable one = new IntWritable(1);
+        private final static IntWritable one = new IntWritable(1);
 
         @Override
         public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
-            String line = input_line.toString();
+            /*String line = input_line.toString();
             String[] tmp_triplet = line.split("\t");
 
-            Pattern pattern = Pattern.compile("(.*?(ns/people\\.person).*)");
+            Pattern pattern = Pattern.compile("(.*?(ns/people\\.person\\.date).*)");
             Matcher matcher = pattern.matcher(tmp_triplet[1]);
             Pattern link_pattern = Pattern.compile(".*((people/person)(/gender|/profession)).*");
             Matcher link_matcher = link_pattern.matcher(tmp_triplet[2]);
@@ -48,22 +42,22 @@ public class Main {
                 person.set("id");
                 id.set(person_id);
                 context.write(person, id);
-            }
-            /*String line = input_line.toString();
+            }*/
+            String line = input_line.toString();
             String[] tmp_triplet = line.split("\t");
 
-            Pattern pattern = Pattern.compile("(.*(people.person).*)");
+            Pattern pattern = Pattern.compile("(.*?(ns/people\\\\.person\\\\.date).*)");
             Matcher matcher = pattern.matcher(tmp_triplet[1]);
-            Pattern link_pattern = Pattern.compile(".*((people.person)(.g|.p)).*");
+            Pattern link_pattern = Pattern.compile(".*((people/person)(/gender|/profession)).*");
             Matcher link_matcher = link_pattern.matcher(tmp_triplet[2]);
 
-            String person_id = getId(tmp_triplet[0]);
+            if(matcher.matches() || link_matcher.find()) {
+                String person_id = getId(tmp_triplet[0]);
 
-            if(matcher.matches()) {
                 id.set(person_id);
                 context.write(id, one);
             }
-            else if(link_matcher.find()) {
+            /*else if(link_matcher.find()) {
                 id.set(person_id);
                 context.write(id, one);
             }*/
@@ -76,15 +70,18 @@ public class Main {
         }
     }
 
-    public static class ReduceClassId extends Reducer<Text, Text, Text, Text>{
+    public static class ReduceClassId extends Reducer<Text, IntWritable, Text, IntWritable>{
         Text id = new Text();
-        //private IntWritable value = new IntWritable(0);
+        private IntWritable value = new IntWritable(0);
 
         @Override
-        public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+        public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+            /*System.out.println("reduce");
             String actual = "";
+            int sum = 0;
 
             for (Text t : values) {
+                sum += 1;
                 if(actual.equals(""))
                     actual = t.toString();
                 else if(!actual.equals(t.toString())){
@@ -94,16 +91,15 @@ public class Main {
                 }
             }
 
-            id.set(actual);
-            context.write(key, id);
-            /*int sum = 0;
+            id.set(String.valueOf(sum));
+            context.write(key, id);*/
+            int sum = 0;
 
             for (IntWritable value : values)
-                sum += value.get();
+                sum += 1;
 
             value.set(sum);
             context.write(key, value);
-            */
         }
     }
 
@@ -308,7 +304,7 @@ public class Main {
                 fileOutputStream.close();
             }*/
 
-            Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("output.json", true), "UTF-8"));
+           Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("output.json", true), "UTF-8"));
             out.write(json.toString() + "\n");
             out.close();
 
@@ -318,6 +314,8 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
+
+
         Configuration conf1=new Configuration();
         Job j1=Job.getInstance(conf1);
 
@@ -325,15 +323,25 @@ public class Main {
         j1.setMapperClass(MapClassId.class);
         j1.setReducerClass(ReduceClassId.class);
         j1.setOutputKeyClass(Text.class);
-        j1.setOutputValueClass(Text.class);
+        j1.setOutputValueClass(IntWritable.class);
         FileInputFormat.addInputPath(j1,new Path(args[0]));
         FileOutputFormat.setOutputPath(j1, new Path(args[1]));
         j1.waitForCompletion(true);
         System.out.println("First job done.");
 
+        FileSystem fileSystem = FileSystem.get(conf1);
+        Path id_file = new Path(args[3]);
+        String current_line = "";
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(fileSystem.open(id_file)))) {
+            while ((current_line = br.readLine()) != null) {
+                String[] tmp_id = current_line.split("\t");
+                load_id.put(tmp_id[0], tmp_id[0]);
+            }
+        }
+
         Configuration conf2 = new Configuration();
-        Path path1 = new Path(args[3]);
-        conf2.set("idfile", String.valueOf(path1));
+        //Path path1 = new Path(args[3]);
+        //conf2.set("idfile", String.valueOf(path1));
 
         Job j2=Job.getInstance(conf2);
         j2.setJarByClass(Main.class);
@@ -372,5 +380,9 @@ public class Main {
         FileInputFormat.addInputPath(j4,new Path(args[4]));
         FileOutputFormat.setOutputPath(j4,new Path(args[7]));
         System.exit(j4.waitForCompletion(true)?0:1);
+    }
+
+    public HashMap<String, String> getLoadedId(){
+        return load_id;
     }
 }

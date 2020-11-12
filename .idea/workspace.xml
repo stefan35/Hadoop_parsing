@@ -48,10 +48,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="306" column="48" selection-start-line="306" selection-start-column="48" selection-end-line="306" selection-end-column="48" />
+            <state relative-caret-position="68">
+              <caret line="4" column="41" lean-forward="true" selection-start-line="4" selection-start-column="41" selection-end-line="4" selection-end-column="41" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#1165#1181#0" expanded="true" />
+                <element signature="e#16838#16839#0" expanded="true" />
+                <element signature="e#16867#16868#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -60,10 +62,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/MapClass.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="295">
-              <caret line="60" column="100" selection-start-line="60" selection-start-column="100" selection-end-line="60" selection-end-column="100" />
+            <state relative-caret-position="516">
+              <caret line="44" selection-start-line="44" selection-end-line="44" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#837#853#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -72,31 +75,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ReduceClass.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
+            <state relative-caret-position="547">
               <caret line="54" column="31" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="31" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/MapLink.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ReduceLink.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -229,7 +209,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="hadoop_parsing_data_artifact.main" />
-      <option name="PROGRAM_PARAMETERS" value="C:\Users\Stefan\Documents\JAVA\hadoop_parsing\input\freebase-head-1000000 C:\Users\Stefan\Documents\JAVA\hadoop_parsing\id C:\Users\Stefan\Documents\JAVA\hadoop_parsing\person_link C:\Users\Stefan\Documents\JAVA\hadoop_parsing\id\part-r-00000 C:\Users\Stefan\Documents\JAVA\hadoop_parsing\person_link\part-r-00000 C:\Users\Stefan\Documents\JAVA\hadoop_parsing\link C:\Users\Stefan\Documents\JAVA\hadoop_parsing\link\part-r-00000 C:\Users\Stefan\Documents\JAVA\hadoop_parsing\person" />
+      <option name="PROGRAM_PARAMETERS" value="C:\Users\Stefan\Documents\JAVA\hadoop_parsing\input\freebase-head-10000000 C:\Users\Stefan\Documents\JAVA\hadoop_parsing\id C:\Users\Stefan\Documents\JAVA\hadoop_parsing\person_link C:\Users\Stefan\Documents\JAVA\hadoop_parsing\id\part-r-00000 C:\Users\Stefan\Documents\JAVA\hadoop_parsing\person_link\part-r-00000 C:\Users\Stefan\Documents\JAVA\hadoop_parsing\link C:\Users\Stefan\Documents\JAVA\hadoop_parsing\link\part-r-00000 C:\Users\Stefan\Documents\JAVA\hadoop_parsing\person" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -237,16 +217,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1296" height="1000" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25161812" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26375404" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3298731" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.29757786" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.27450982" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.55824685" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -342,7 +321,6 @@
     <entry file="file://$PROJECT_DIR$/output/part-r-00000" />
     <entry file="file://$PROJECT_DIR$/output1/part-r-00000" />
     <entry file="file://$PROJECT_DIR$/debug.txt" />
-    <entry file="file://$PROJECT_DIR$/id/part-r-00000" />
     <entry file="file://$PROJECT_DIR$/link/part-r-00000" />
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
@@ -351,6 +329,7 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/person_link/part-r-00000" />
     <entry file="file://$PROJECT_DIR$/src/main/java/MapLink.java">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -362,30 +341,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ReduceLink.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
+        <state relative-caret-position="306">
           <caret line="18" selection-start-line="18" selection-end-line="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/person/part-r-00000">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="36" column="75" lean-forward="true" selection-start-line="36" selection-start-column="75" selection-end-line="36" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/person_link/part-r-00000">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1326" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/MapClass.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="60" column="100" selection-start-line="60" selection-start-column="100" selection-end-line="60" selection-end-column="100" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -394,7 +351,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ReduceClass.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
+        <state relative-caret-position="547">
           <caret line="54" column="31" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -402,19 +359,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/MapClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="516">
+          <caret line="44" selection-start-line="44" selection-end-line="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#837#853#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/person/part-r-00000">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/id/part-r-00000">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-44973" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/output.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="45" lean-forward="true" selection-start-line="7" selection-start-column="45" selection-end-line="7" selection-end-column="45" />
-        </state>
+        <state relative-caret-position="-28" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="306" column="48" selection-start-line="306" selection-start-column="48" selection-end-line="306" selection-end-column="48" />
+        <state relative-caret-position="68">
+          <caret line="4" column="41" lean-forward="true" selection-start-line="4" selection-start-column="41" selection-end-line="4" selection-end-column="41" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#1165#1181#0" expanded="true" />
+            <element signature="e#16838#16839#0" expanded="true" />
+            <element signature="e#16867#16868#0" expanded="true" />
           </folding>
         </state>
       </provider>
