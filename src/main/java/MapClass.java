@@ -23,8 +23,7 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
     private Text link_id = new Text();
     private Text value = new Text();
     String current = "";
-    Boolean person = false;
-    Main mainObject = new Main();
+    boolean person = false;
     static HashSet<String> load_id = new HashSet<String>();
     boolean first_time_id = true;
 
@@ -45,12 +44,6 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
             first_time_id = false;
         }
 
-        /*Configuration conf = context.getConfiguration();
-        String a = conf.get("idfile");
-        a = a.replace(" ", "");
-        a = a.substring(1, a.length() - 1);
-        String[] ary = a.split(",");
-        HashSet<String> mySet = new HashSet<String>(Arrays.asList(ary));*/
         String line = input_line.toString();
 
         String[] tmp_triplet = line.split("\t");

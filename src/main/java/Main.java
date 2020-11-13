@@ -19,7 +19,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
-    public static HashSet<String> load_id = new HashSet<String>();
 
     public static class MapClassId extends Mapper<LongWritable, Text, Text, Text> {
         private Text id = new Text();
@@ -102,14 +101,9 @@ public class Main {
     public static class MapMerge extends Mapper<LongWritable, Text, Text, Text> {
         Text person = new Text();
         Text value = new Text();
-        //ReduceClass rc = new ReduceClass();
-        //public static HashMap<String, String> link_map = new HashMap<String, String>();
 
         @Override
         public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
-            /*Configuration conf = context.getConfiguration();
-            File linkFile = new File(conf.get("links"));*/
-            //link_map = rc.getAllLink();
             Configuration conf = context.getConfiguration();
             FileSystem fileSystem = FileSystem.get(conf);
             Path path = new Path(conf.get("links"));
@@ -153,7 +147,6 @@ public class Main {
 
                 String current_line;
                 try (BufferedReader br = new BufferedReader(new InputStreamReader(fileSystem.open(path)))) {
-                    //try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(linkFile), "UTF-8"))) {
                     while ((current_line = br.readLine()) != null) {
                         String[] tmp_link_file = current_line.split("\t");
                         for(int i = 0; i < prepare_link.size(); i++){
@@ -244,10 +237,6 @@ public class Main {
                     }
                 }
             }
-            //person_name
-            //alias
-            //profession
-            //gender
 
             if(name.size() < 1 || person_name.length() < 1)
                 return;
@@ -298,7 +287,7 @@ public class Main {
             String final_add = "";
             try {
                 json.put(person_name, arr);
-                final_add = json.toString() + ",";
+                final_add = json.toString();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -318,9 +307,11 @@ public class Main {
             }*/
 
            Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("output.json", true), "UTF-8"));
-           out.write(final_add + "\n");
+           out.write(final_add + ",\n");
            out.close();
 
+            tmp_list = String.join("|", name);
+            all.add("name:" + tmp_list);
             value.set(String.valueOf(all));
             context.write(key, value);
         }
@@ -342,12 +333,9 @@ public class Main {
         j1.waitForCompletion(true);
         System.out.println("First job done.");
 
-
         Configuration conf2 = new Configuration();
         Path path1 = new Path(args[3]);
         conf2.set("idfile", String.valueOf(path1));
-        //mc.set(load_id);
-        //.out.println(String.valueOf(load_id));
 
         Job j2=Job.getInstance(conf2);
         j2.setJarByClass(Main.class);
@@ -388,12 +376,22 @@ public class Main {
         System.out.println("Fourth job done.");
         j4.waitForCompletion(true);
 
+        /*FileSystem hdfs = FileSystem.get(conf4);
+          Path file = new Path("/json/output.json");
+          FSDataOutputStream fileOutputStream = null;
+
+          if (hdfs.exists(file)) {
+              fileOutputStream = hdfs.append(file);
+              fileOutputStream.writeBytes("]");
+              fileOutputStream.close();
+          } else {
+              fileOutputStream = hdfs.create(file);
+              fileOutputStream.writeBytes("]");
+              fileOutputStream.close();
+          }*/
+
         Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("output.json", true), "UTF-8"));
         out.write("]");
         out.close();
-    }
-
-    public HashSet<String> getLoadedId(){
-        return load_id;
     }
 }
