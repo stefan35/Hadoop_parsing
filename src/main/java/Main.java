@@ -42,15 +42,16 @@ public class Main {
                 id.set(person_id);
                 context.write(id, person);
             }
-            /*String line = input_line.toString();
+            /*
+            String line = input_line.toString();
             String[] tmp_triplet = line.split("\t");
 
-            Pattern pattern = Pattern.compile("(.*?(ns/people\\\\.person\\\\.date).*)");
+            Pattern pattern = Pattern.compile("(.*?(ns/people\\.person\\.date).*)");
             Matcher matcher = pattern.matcher(tmp_triplet[1]);
             Pattern link_pattern = Pattern.compile(".*((people/person)(/gender|/profession)).*");
             Matcher link_matcher = link_pattern.matcher(tmp_triplet[2]);
 
-            if(matcher.matches() || link_matcher.find()) {
+            if(matcher.find() || link_matcher.find()) {
                 String person_id = getId(tmp_triplet[0]);
 
                 id.set(person_id);
@@ -87,14 +88,14 @@ public class Main {
 
             id.set(String.valueOf(sum));
             context.write(key, id);
+            /*
+            int sum = 0;
 
-            /*int sum = 0;
-
-            for (Text v : values)
+            for (IntWritable v : values)
                 sum += 1;
 
-            id.set(sum);
-            context.write(key, null);*/
+            value.set(sum);
+            context.write(key, value);*/
         }
     }
 
