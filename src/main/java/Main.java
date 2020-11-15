@@ -1,4 +1,5 @@
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -242,30 +243,29 @@ public class Main {
             if(name.size() < 1 || person_name.length() < 1)
                 return;
 
-            //tmp_list = String.join("|", name);
-            //all.add("name:" + tmp_list);
+            tmp_list = String.join("|", name);
+            all.add(0, "name:" + tmp_list);
 
             if(alias.size() == 0)
-                all.add("alias:" + "NONE");
+                all.add("alias:" + "None");
             else if(!(alias.size() == 0)) {
                 tmp_list = String.join("|", alias);
                 all.add("alias:" + tmp_list);
             }
             if(profession.size() == 0)
-                all.add("profession:" + "NONE");
+                all.add("profession:" + "None");
             else if(!(profession.size() == 0)) {
                 tmp_list = String.join("|", profession);
                 all.add("profession:" + tmp_list);
             }
             if(gender.size() == 0)
-                all.add("gender:" + "NONE");
+                all.add("gender:" + "None");
             else if(!(gender.size() == 0)) {
                 tmp_list = String.join("|", gender);
                 all.add("gender:" + tmp_list);
             }
 
             JSONObject json = new JSONObject();
-            JSONObject item = new JSONObject();
             for(int i = 0; i < all.size(); i++){
                 String[] tmp_json = all.get(i).split(":");
                 try {
@@ -275,23 +275,15 @@ public class Main {
                         for(int j = 0; j < tmp_value.length; j++){
                             array.add(tmp_value[j]);
                         }
-                        item.put(tmp_json[0], array);
+                        json.put(tmp_json[0], array);
                     }
                     else
-                        item.put(tmp_json[0], tmp_json[1]);
+                        json.put(tmp_json[0], tmp_json[1]);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-            ArrayList<JSONObject> arr = new ArrayList<>();
-            arr.add(item);
-            String final_add = "";
-            try {
-                json.put(person_name, arr);
-                final_add = json.toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
             /*Configuration configuration = new Configuration();
             FileSystem hdfs = FileSystem.get(configuration);
             Path file = new Path("/json/output.json");
@@ -308,11 +300,9 @@ public class Main {
             }*/
 
            Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("output.json", true), "UTF-8"));
-           out.write(final_add + ",\n");
+           out.write(json.toString() + ",\n");
            out.close();
 
-            tmp_list = String.join("|", name);
-            all.add("name:" + tmp_list);
             value.set(String.valueOf(all));
             context.write(key, value);
         }
@@ -378,18 +368,18 @@ public class Main {
         j4.waitForCompletion(true);
 
         /*FileSystem hdfs = FileSystem.get(conf4);
-          Path file = new Path("/json/output.json");
-          FSDataOutputStream fileOutputStream = null;
+        Path file = new Path("/json/output.json");
+        FSDataOutputStream fileOutputStream = null;
 
-          if (hdfs.exists(file)) {
-              fileOutputStream = hdfs.append(file);
-              fileOutputStream.writeBytes("]");
-              fileOutputStream.close();
-          } else {
-              fileOutputStream = hdfs.create(file);
-              fileOutputStream.writeBytes("]");
-              fileOutputStream.close();
-          }*/
+        if (hdfs.exists(file)) {
+            fileOutputStream = hdfs.append(file);
+            fileOutputStream.writeBytes("]");
+            fileOutputStream.close();
+        } else {
+            fileOutputStream = hdfs.create(file);
+            fileOutputStream.writeBytes("]");
+            fileOutputStream.close();
+        }*/
 
         Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("output.json", true), "UTF-8"));
         out.write("]");
