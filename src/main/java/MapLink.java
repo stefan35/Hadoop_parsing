@@ -9,12 +9,11 @@ import java.util.regex.Pattern;
 public class MapLink extends Mapper<LongWritable, Text, Text, Text> {
     private Text link_id = new Text();
     private Text value = new Text();
+    Pattern link_pattern = Pattern.compile(".*name.*");
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
         String line = input_line.toString();
-
-        Pattern link_pattern = Pattern.compile(".*name.*");
         Matcher link_matcher = link_pattern.matcher(line);
 
         if(!link_matcher.find()){

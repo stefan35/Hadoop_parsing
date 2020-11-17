@@ -26,6 +26,10 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
     boolean person = false;
     static HashSet<String> load_id = new HashSet<String>();
     boolean first_time_id = true;
+    Pattern person_pattern = Pattern.compile(".*((ns.people.person)(.g|.pr)|(person.date_of)|(.object.name.)|(topic.alias)).*");
+    Pattern person_date = Pattern.compile("\"([0-9]{4})[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])\"|\"([0-9]{4})[-](0[1-9]|1[012])\"|\"([0-9]{4})\"");
+    Pattern link_pattern = Pattern.compile(".*(notable_for)(.display|.object).*");
+
 
     @Override
     public void map(LongWritable key, Text input_line, Context context) throws IOException, InterruptedException {
@@ -45,15 +49,13 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         }
 
         String line = input_line.toString();
-
         String[] tmp_triplet = line.split("\t");
         String id = getId(tmp_triplet[0]);
-        Pattern person_pattern = Pattern.compile(".*((ns.people.person)(.g|.pr)|(person.date_of)|(.object.name.)|(topic.alias)).*");
+
         Matcher person_matcher = person_pattern.matcher(tmp_triplet[1]);
-        Pattern person_date = Pattern.compile("\"([0-9]{4})[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])\"|\"([0-9]{4})[-](0[1-9]|1[012])\"|\"([0-9]{4})\"");
         Matcher date_matcher = person_date.matcher(line);
-        Pattern link_pattern = Pattern.compile(".*(notable_for)(.display|.object).*");
         Matcher link_matcher = link_pattern.matcher(line);
+
         if(!current.equals(id)) {
             person = false;
             current = id;
@@ -145,9 +147,5 @@ public class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         String[] id = base_triplet.split("/");
         id[4] = id[4].substring(0, id[4].length() - 1);
         return id[4];
-    }
-
-    public void set(HashSet<String> load_id) {
-        this.load_id = load_id;
     }
 }

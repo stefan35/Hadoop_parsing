@@ -2,7 +2,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -11,6 +10,8 @@ public class ReduceClass extends Reducer<Text, Text, Text, Text> {
     Text value = new Text();
     HashSet<String> all_links = new HashSet<String>();
     boolean new_link = false;
+    Pattern person_pattern = Pattern.compile("(date|gender|profession|@en)");
+    Pattern name_pattern = Pattern.compile("\"[A-Za-z ěščřžýáíéóúůôďťňĺľĽĎŇŤŠČŘŽÝÁÍÉÚĹ]+");
 
     @Override
     public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
@@ -19,9 +20,7 @@ public class ReduceClass extends Reducer<Text, Text, Text, Text> {
         boolean name = false;
         boolean link_flag = false;
         new_link = false;
-        Pattern person_pattern = Pattern.compile("(date|gender|profession|@en)");
         Matcher person_matcher;
-        Pattern name_pattern = Pattern.compile("\"[A-Za-z ěščřžýáíéóúůôďťňĺľĽĎŇŤŠČŘŽÝÁÍÉÚĹ]+");
         Matcher name_matcher;
 
         for (Text v : values) {
