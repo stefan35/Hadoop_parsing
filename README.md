@@ -1,1 +1,1 @@
-# hadoop_parsing
+Parsovanie dát, konkrétne person z freebase pomocou hadoop
